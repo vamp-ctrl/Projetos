@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciador de Caixa - Explosão Açaí</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar">
+    <h1>Explosão Açaí</h1>
+    <a href="./menu/abertura.html">Abertura de Caixa</a>
+    <a href="./menu/histórico.html">Histórico de Pedidos</a>
+    <a href="./menu/fechamento.html">Fechamento de Caixa</a>
+    <a href="./menu/relatorios.html">Relatórios</a>
+  </nav>
+
+  <div class="main-content">
+    <header>
+      <h1>Gerenciador de Caixa</h1>
+    </header>
+
+    <main>
+      <div class="form-section">
+        <h2>Lançar Pedido</h2>
+
+        <label for="vendedores">Vendedor:</label>
+        <select id="vendedores">
+          <option value="" disabled selected hidden>Selecione o vendedor</option>
+          <option value="Amorim">Amorim</option>
+          <option value="Lucas">Lucas</option>
+          <option value="Victor">Victor</option>
+          <option value="Virginia">Virginia</option>
+        </select>
+
+        <!-- Tipo de Pedido -->
+        <label for="tipoPedido">Tipo de Pedido:</label>
+        <select id="tipoPedido" onchange="atualizarFormulario()">
+          <option value="" disabled selected hidden>Selecione</option>
+          <option value="acai">Açaí</option>
+          <option value="produto">Produto</option>
+          <option value="ambos">Ambos</option>
+        </select>
+
+        <!-- Campos de Açaí -->
+        <!-- Campo de Açaí -->
+        <div id="campoAcai" style="display: none;">
+          <label for="valorAcai">Valor do Açaí (R$):</label>
+          <input type="number" id="valorAcai" placeholder="Valor do Açaí (R$):" step="0.01" />
+        </div>
+
+
+        <!-- Campo de Produto -->
+        <div id="campoProduto" style="display: none;">
+          <label for="valorProduto">Valor do Produto (R$):</label>
+          <input type="number" id="valorProduto" placeholder="Valor do Produto (R$):" step="0.01" />
+        </div>
+
+        <label for="pagamento">Forma de Pagamento:</label>
+        <select id="pagamento">
+          <option value="" disabled selected hidden>Forma de pagamento</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Pix">Pix</option>
+          <option value="Cartão">Cartão</option>
+        </select>
+
+        <div id="tipoCartaoContainer" style="display:none;">
+          <label for="tipoCartao">Tipo de Cartão:</label>
+          <select id="tipoCartao">
+            <option value="" disabled selected hidden>Selecione:</option>
+            <option value="Crédito">Crédito</option>
+            <option value="Débito">Débito</option>
+          </select>
+        </div>
+
+        <div id="trocoContainer" style="display:none;">
+          <label for="desejaTroco">Deseja troco?</label>
+          <select id="desejaTroco" onchange="verificarTroco()">
+            <option value="" disabled selected hidden>Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+          </select>
+        </div>
+
+        <div id="valorEntregueContainer" style="display:none;">
+          <label for="valorEntregue">Valor entregue pelo cliente (R$):</label>
+          <input type="number" id="valorEntregue" step="0.01" />
+        </div>
+
+
+        <label for="descricao">Descrição (opcional):</label>
+        <textarea id="descricao" rows="3" placeholder="Descrição:"></textarea>
+
+        <button onclick="calcularTotal()">Calcular Total</button>
+      </div>
+
+      <div class="resultado">
+        <h2>Resumo do Pedido</h2>
+        <p id="resumo">Preencha os campos para calcular.</p>
+        <div id="comanda" class="comanda" style="display:none;"></div>
+        <button id="imprimirComanda" style="display:none;" onclick="imprimirComanda()">Imprimir Comanda</button>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+    </footer>
+  </div>
+
+  <script>
+    function atualizarFormulario() {
+      const tipo = document.getElementById('tipoPedido').value;
+      document.getElementById('campoAcai').style.display = (tipo === 'acai' || tipo === 'ambos') ? 'block' : 'none';
+      document.getElementById('campoProduto').style.display = (tipo === 'produto' || tipo === 'ambos') ? 'block' : 'none';
+    }
+
+    
+
+  </script>
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+</body>
+</html>
