@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Abertura de Caixa - Explosão Açaí</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    :root {
+      --roxo-escuro: #1a1a2e;
+      --roxo-medio: #2a003f;
+      --roxo-claro: #d1c4e9;
+      --roxo-hover: #5e35b1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--roxo-escuro);
+      color: var(--roxo-claro);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: var(--roxo-medio);
+      padding: 20px;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: var(--roxo-claro);
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+      border: 1px solid #340b49;
+    }
+
+    .sidebar a:hover {
+      background-color: #3a0055;
+    }
+
+    .topnav {
+      display: none;
+    }
+
+    header, footer {
+      color: var(--roxo-claro);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .topo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    .form-section {
+      background-color: var(--roxo-medio);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #340b49;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #b39ddb;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2rem;
+      background-color: #7e57c2;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:disabled {
+      background-color: #9575cd88;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: var(--roxo-hover);
+    }
+
+    #mensagem {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+      color: #a5d6a7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: transparent;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .topnav {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        background-color: var(--roxo-medio);
+        padding: 15px 10px;
+      }
+
+      .topnav a {
+        text-decoration: none;
+        color: var(--roxo-claro);
+        font-size: 1rem;
+        padding: 10px 15px;
+        border: 1px solid #340b49;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .topnav a:hover {
+        background-color: #3a0055;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar para telas grandes -->
+  <nav class="sidebar">
+    <h3>Explosão Açai</h3>
+    <a href="./histórico.html">Histórico de Pedidos</a>
+    <a href="../index.html">Lançar Pedidos</a>
+    <a href="./fechamento.html">Fechamento de Caixa</a>
+    <a href="./relatorios.html">Relatórios</a>
+  </nav>
+
+  <!-- Menu horizontal para telas pequenas -->
+  <nav class="topnav">
+    <a href="./histórico.html">Histórico</a>
+    <a href="../index.html">Pedidos</a>
+    <a href="./fechamento.html">Fechamento</a>
+    <a href="./relatorios.html">Relatórios</a>
+  </nav>
+
+  <main>
+    <header class="topo">
+      <h1 class="titulo">Abertura de Caixa - Explosão Açaí</h1>
+    </header>
+
+    <div class="form-section">
+      <h2>Abrir Caixa</h2>
+      <label for="abertura">Valor de Abertura (R$):</label>
+      <input 
+        type="number" 
+        id="abertura" 
+        placeholder="Ex: 100.00" 
+        step="0.01" 
+        min="0"
+        oninput="validarValor()" 
+      />
+      <button id="btnAbrir" onclick="abrirCaixa()" disabled>Abrir Caixa</button>
+      <div id="mensagem"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    function validarValor() {
+      const input = document.getElementById('abertura');
+      const botao = document.getElementById('btnAbrir');
+      const valor = parseFloat(input.value);
+      botao.disabled = isNaN(valor) || valor < 0;
+    }
+
+    function abrirCaixa() {
+      const input = document.getElementById('abertura');
+      const mensagem = document.getElementById('mensagem');
+      const valor = parseFloat(input.value);
+
+      if (isNaN(valor) || valor < 0) {
+        mensagem.style.color = '#ef5350';
+        mensagem.textContent = 'Por favor, insira um valor válido para abrir o caixa.';
+        return;
+      }
+
+      localStorage.setItem('valorAbertura', valor.toFixed(2));
+      localStorage.setItem('caixaAberto', 'true');
+      localStorage.setItem('totalPedidos', '0');
+
+      mensagem.style.color = '#a5d6a7';
+      mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}.`;
+
+      document.getElementById('btnAbrir').disabled = true;
+      input.disabled = true;
+    }
+
+    window.onload = () => {
+      const caixaAberto = localStorage.getItem('caixaAberto');
+      if (caixaAberto === 'true') {
+        const valor = localStorage.getItem('valorAbertura') || '0.00';
+        const input = document.getElementById('abertura');
+        const botao = document.getElementById('btnAbrir');
+        const mensagem = document.getElementById('mensagem');
+
+        input.value = valor;
+        input.disabled = true;
+        botao.disabled = true;
+        mensagem.style.color = '#a5d6a7';
+        mensagem.textContent = `Caixa já está aberto com R$ ${valor}.`;
+      }
+    };
+  </script>
+</body>
+</html>

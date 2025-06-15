@@ -1,0 +1,201 @@
+:root {
+  --roxo-escuro: #2a003f;
+  --preto: #000000;
+  --roxo-claro: #f0e6ff;
+  --roxo-input: #340b49;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--preto);
+  color: var(--roxo-claro);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* MENU LATERAL */
+.sidebar {
+  width: 240px;
+  background-color: var(--roxo-escuro);
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.3s ease;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--roxo-claro);
+  text-decoration: underline;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--roxo-claro);
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--roxo-input);
+  transition: background 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #3a0055;
+}
+
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-top: 5px;
+  background-color: var(--roxo-escuro);
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: var(--roxo-claro);
+  margin: 0;
+}
+
+.menu-toggle {
+  background: none;
+  color: var(--roxo-claro);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  background-color: var(--roxo-escuro);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-section label {
+  display: block;
+  margin-top: 10px;
+}
+
+.form-section input,
+.form-section select,
+.form-section textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  background-color: var(--roxo-input);
+  color: var(--roxo-claro);
+}
+
+.form-section button,
+button {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  background-color: var(--roxo-claro);
+  color: var(--roxo-escuro);
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-section button:hover {
+  background-color: #e0d0ff;
+}
+
+.resultado {
+  background-color: var(--roxo-escuro);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.comanda {
+  background-color: #1a002a;
+  margin-top: 10px;
+  margin-right: 80px;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+textarea::placeholder {
+  color: var(--roxo-claro);
+  opacity: 0.7;
+}
+
+/* RESPONSIVO SEM MENU HAMBÚRGUER */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .sidebar h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    margin-top: 0;
+    width: 100%;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+}

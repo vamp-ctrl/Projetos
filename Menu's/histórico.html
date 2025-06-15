@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Histórico de Pedidos - Explosão Açaí</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a2e;
+      color: #d1c4e9;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      color: #4d317d;
+      margin-bottom: 20px;
+      text-align: center;
+      text-decoration: underline;
+    }
+    #historicoPedidos {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #historicoPedidos li {
+      background-color: #2a003f;
+      margin-bottom: 12px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px #340b49;
+      font-size: 1rem;
+      line-height: 1.4;
+      white-space: pre-line;
+    }
+    #btnLimpar {
+      display: block;
+      margin: 20px auto;
+      background-color: #340b49;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    #btnLimpar:hover {
+      background-color: #5e35b1;
+    }
+    .sidebar {
+      width: 240px;
+      background-color: #2a003f;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .sidebar h1 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      background-color: #3a0055;
+      border-radius: 50px;
+      color: var(--roxo-claro);
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: var(--roxo-claro);
+      font-size: 1rem;
+      padding: 10px;
+      border: 1px solid #340b49;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #3a0055;
+    }
+  </style>
+</head>
+<body onload="carregarHistorico()">
+  <header>
+    <h1>Histórico de Pedidos</h1>
+    <nav class="sidebar">
+      <h1>Explosão Açaí</h1>
+      <a href="./abertura.html">Abertura de Caixa</a>
+      <a href="../index.html">Lançar Pedidos</a>
+      <a href="./fechamento.html">Fechamento de Caixa</a>
+      <a href="./relatorios.html">Relatórios</a>
+    </nav>
+  </header>
+
+  <ul id="historicoPedidos">
+    <!-- Histórico será inserido aqui -->
+  </ul>
+
+  <button id="btnLimpar" onclick="limparHistorico()">Limpar Histórico</button>
+
+  <script>
+    function carregarHistorico() {
+      const historico = document.getElementById('historicoPedidos');
+      const comandasSalvas = localStorage.getItem('comandas');
+      historico.innerHTML = '';
+
+      if (!comandasSalvas) {
+        historico.innerHTML = '<li>Nenhum pedido registrado ainda.</li>';
+        return;
+      }
+
+      const comandasObj = JSON.parse(comandasSalvas);
+
+      const pedidos = Object.values(comandasObj);
+
+      if (pedidos.length === 0) {
+        historico.innerHTML = '<li>Nenhum pedido registrado ainda.</li>';
+        return;
+      }
+
+      pedidos.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora)); // Ordena do mais recente
+
+      pedidos.forEach(pedido => {
+      const item = document.createElement('li');
+      item.textContent =
+        `Pedido #${pedido.id}\n` +
+        `Vendedor: ${pedido.vendedor}\n` +
+        `Total: R$ ${pedido.total}\n` +
+        `Pagamento: ${pedido.pagamento}\n` +
+        `Descrição: ${pedido.descricao}\n` +
+        `Data/Hora: ${pedido.dataHora}`;
+      historico.appendChild(item);
+    });
+
+    }
+
+    function limparHistorico() {
+      if (confirm('Tem certeza que deseja limpar todo o histórico? Essa ação não pode ser desfeita.')) {
+        localStorage.removeItem('comandas');
+        localStorage.removeItem('pedidoId');
+        carregarHistorico();
+        alert('Histórico limpo com sucesso!');
+      }
+    }
+  </script>
+
+</body>
+</html>
