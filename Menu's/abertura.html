@@ -67,10 +67,12 @@
     main {
       flex: 1;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
     }
 
     .form-section {
@@ -137,13 +139,20 @@
       padding: 10px;
       background-color: transparent;
       font-size: 0.9rem;
-      margin-top: auto;
+      margin-top: 20px;
     }
 
     /* RESPONSIVO */
+    @media (max-width: 1024px) {
+      .form-section {
+        width: 90%;
+      }
+    }
+
     @media (max-width: 768px) {
       body {
         flex-direction: column;
+        align-items: center;
       }
 
       .sidebar {
@@ -152,25 +161,69 @@
 
       .topnav {
         display: flex;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         background-color: var(--roxo-medio);
         padding: 15px 10px;
+        width: 100%;
+        gap: 10px;
       }
 
-      .topnav a {
+      .topnav h5 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+
+      .topnav .nav-links {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .topnav .nav-links a {
         text-decoration: none;
         color: var(--roxo-claro);
-        font-size: 1rem;
-        padding: 10px 15px;
+        font-size: 0.95rem;
+        padding: 10px 12px;
         border: 1px solid #340b49;
         border-radius: 5px;
         transition: background 0.3s;
       }
 
-      .topnav a:hover {
+      .topnav .nav-links a:hover {
         background-color: #3a0055;
+      }
+
+      .form-section {
+        padding: 25px 20px;
+      }
+
+      h1.titulo {
+        font-size: 1.4rem;
+        text-align: center;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-section {
+        padding: 20px 15px;
+        font-size: 0.9rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      input[type="number"],
+      button {
+        font-size: 1rem;
+        padding: 10px;
+      }
+
+      .topnav .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.85rem;
       }
     }
   </style>
@@ -188,10 +241,13 @@
 
   <!-- Menu horizontal para telas pequenas -->
   <nav class="topnav">
-    <a href="./histórico.html">Histórico</a>
-    <a href="../index.html">Pedidos</a>
-    <a href="./fechamento.html">Fechamento</a>
-    <a href="./relatorios.html">Relatórios</a>
+    <h5 class="topo nav">Explosão Açai</h5>
+    <div class="nav-links">
+      <a href="./histórico.html">Histórico</a>
+      <a href="../index.html">Pedidos</a>
+      <a href="./fechamento.html">Fechamento</a>
+      <a href="./relatorios.html">Relatórios</a>
+    </div>
   </nav>
 
   <main>
@@ -213,11 +269,11 @@
       <button id="btnAbrir" onclick="abrirCaixa()" disabled>Abrir Caixa</button>
       <div id="mensagem"></div>
     </div>
-  </main>
 
-  <footer>
-    <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
-  </footer>
+    <footer>
+      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+    </footer>
+  </main>
 
   <script>
     function validarValor() {
