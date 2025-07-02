@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -34,27 +33,22 @@
           <option value="Virginia">Virginia</option>
         </select>
 
-        <!-- Tipo de Pedido -->
         <label for="tipoPedido">Tipo de Pedido:</label>
-        <select id="tipoPedido" onchange="atualizarFormulario()">
+        <select id="tipoPedido">
           <option value="" disabled selected hidden>Selecione</option>
           <option value="acai">Açaí</option>
           <option value="produto">Produto</option>
           <option value="ambos">Ambos</option>
         </select>
 
-        <!-- Campos de Açaí -->
-        <!-- Campo de Açaí -->
         <div id="campoAcai" style="display: none;">
           <label for="valorAcai">Valor do Açaí (R$):</label>
-          <input type="number" id="valorAcai" placeholder="Valor do Açaí (R$):" step="0.01" />
+          <input type="number" id="valorAcai" step="0.01" />
         </div>
 
-
-        <!-- Campo de Produto -->
         <div id="campoProduto" style="display: none;">
           <label for="valorProduto">Valor do Produto (R$):</label>
-          <input type="number" id="valorProduto" placeholder="Valor do Produto (R$):" step="0.01" />
+          <input type="number" id="valorProduto" step="0.01" />
         </div>
 
         <label for="pagamento">Forma de Pagamento:</label>
@@ -76,7 +70,7 @@
 
         <div id="trocoContainer" style="display:none;">
           <label for="desejaTroco">Deseja troco?</label>
-          <select id="desejaTroco" onchange="verificarTroco()">
+          <select id="desejaTroco">
             <option value="" disabled selected hidden>Selecione</option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>
@@ -87,7 +81,6 @@
           <label for="valorEntregue">Valor entregue pelo cliente (R$):</label>
           <input type="number" id="valorEntregue" step="0.01" />
         </div>
-
 
         <label for="descricao">Descrição (opcional):</label>
         <textarea id="descricao" rows="3" placeholder="Descrição:"></textarea>
@@ -108,16 +101,6 @@
     </footer>
   </div>
 
-  <script>
-    function atualizarFormulario() {
-      const tipo = document.getElementById('tipoPedido').value;
-      document.getElementById('campoAcai').style.display = (tipo === 'acai' || tipo === 'ambos') ? 'block' : 'none';
-      document.getElementById('campoProduto').style.display = (tipo === 'produto' || tipo === 'ambos') ? 'block' : 'none';
-    }
-
-    
-
-  </script>
   <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </body>
