@@ -9,10 +9,10 @@
 <body>
   <nav class="sidebar" id="sidebar">
     <h1>Explosão Açaí</h1>
-    <a href="./Menu's/abertura.html">Abertura de Caixa</a>
-    <a href="./Menu's/histórico.html">Histórico de Pedidos</a>
-    <a href="./Menu's/fechamento.html">Fechamento de Caixa</a>
-    <a href="./Menu's/relatorios.html">Relatórios</a>
+    <a href="./Menu/abertura.html">Abertura de Caixa</a>
+    <a href="./Menu/histórico.html">Histórico de Pedidos</a>
+    <a href="./Menu/fechamento.html">Fechamento de Caixa</a>
+    <a href="./Menu/relatorios.html">Relatórios</a>
   </nav>
 
   <div class="main-content">
@@ -24,14 +24,8 @@
       <div class="form-section">
         <h2>Lançar Pedido</h2>
 
-        <label for="vendedores">Vendedor:</label>
-        <select id="vendedores">
-          <option value="" disabled selected hidden>Selecione o vendedor</option>
-          <option value="Amorim">Amorim</option>
-          <option value="Diana">Diana</option>
-          <option value="Lucas">Lucas</option>
-          <option value="Virginia">Virginia</option>
-        </select>
+        <label for="vendedorInput">Vendedor:</label>
+        <input type="text" id="vendedorInput" placeholder="Digite o nome do vendedor" />
 
         <label for="tipoPedido">Tipo de Pedido:</label>
         <select id="tipoPedido">
@@ -51,36 +45,9 @@
           <input type="number" id="valorProduto" step="0.01" />
         </div>
 
-        <label for="pagamento">Forma de Pagamento:</label>
-        <select id="pagamento">
-          <option value="" disabled selected hidden>Forma de pagamento</option>
-          <option value="Dinheiro">Dinheiro</option>
-          <option value="Pix">Pix</option>
-          <option value="Cartão">Cartão</option>
-        </select>
-
-        <div id="tipoCartaoContainer" style="display:none;">
-          <label for="tipoCartao">Tipo de Cartão:</label>
-          <select id="tipoCartao">
-            <option value="" disabled selected hidden>Selecione:</option>
-            <option value="Crédito">Crédito</option>
-            <option value="Débito">Débito</option>
-          </select>
-        </div>
-
-        <div id="trocoContainer" style="display:none;">
-          <label for="desejaTroco">Deseja troco?</label>
-          <select id="desejaTroco">
-            <option value="" disabled selected hidden>Selecione</option>
-            <option value="sim">Sim</option>
-            <option value="nao">Não</option>
-          </select>
-        </div>
-
-        <div id="valorEntregueContainer" style="display:none;">
-          <label for="valorEntregue">Valor entregue pelo cliente (R$):</label>
-          <input type="number" id="valorEntregue" step="0.01" />
-        </div>
+        <label>Formas de Pagamento:</label>
+        <div id="pagamentosContainer"></div>
+        <button type="button" onclick="adicionarPagamento()">+ Adicionar Forma de Pagamento</button>
 
         <label for="descricao">Descrição (opcional):</label>
         <textarea id="descricao" rows="3" placeholder="Descrição:"></textarea>

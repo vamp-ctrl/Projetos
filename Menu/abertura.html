@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Abertura de Caixa - Explosão Açaí</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="style.css" /> <!-- corrigido: removido ../ -->
   <style>
     :root {
       --roxo-escuro: #1a1a2e;
@@ -46,7 +46,7 @@
     }
 
     .sidebar a:hover {
-      background-color: #3a0055;
+      background-color: #62237f;
     }
 
     .topnav {
@@ -113,7 +113,6 @@
       background-color: #7e57c2;
       border: none;
       border-radius: 8px;
-      color: white;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -125,6 +124,13 @@
 
     button:hover:not(:disabled) {
       background-color: var(--roxo-hover);
+    }
+
+    .inputValor {
+      background-color: #583c89;
+      color: var(--roxo-claro);
+      border: 1px solid #340b49;
+      font-size: 1.1rem;
     }
 
     #mensagem {
@@ -146,6 +152,10 @@
     @media (max-width: 1024px) {
       .form-section {
         width: 90%;
+      }
+
+      .sidebar {
+        width: 200px;
       }
     }
 
@@ -232,33 +242,33 @@
 
   <!-- Sidebar para telas grandes -->
   <nav class="sidebar">
-    <h3>Explosão Açai</h3>
-    <a href="./histórico.html">Histórico de Pedidos</a>
-    <a href="../index.html">Lançar Pedidos</a>
-    <a href="./fechamento.html">Fechamento de Caixa</a>
-    <a href="./relatorios.html">Relatórios</a>
+      <h3>Menu:</h3>
+      <a href="histórico.html">Histórico</a>
+      <a href="/index.html">Lançar Pedidos</a>
+      <a href="fechamento.html">Fechamento de Caixa</a>
+      <a href="relatorios.html">Relatórios</a>
   </nav>
 
   <!-- Menu horizontal para telas pequenas -->
   <nav class="topnav">
     <h5 class="topo nav">Explosão Açai</h5>
     <div class="nav-links">
-      <a href="./histórico.html">Histórico</a>
-      <a href="../index.html">Pedidos</a>
-      <a href="./fechamento.html">Fechamento</a>
-      <a href="./relatorios.html">Relatórios</a>
+      <a href="historico.html">Histórico</a>
+      <a href="index.html">Pedidos</a>
+      <a href="fechamento.html">Fechamento</a>
+      <a href="relatorios.html">Relatórios</a>
     </div>
   </nav>
 
   <main>
     <header class="topo">
-      <h1 class="titulo">Abertura de Caixa - Explosão Açaí</h1>
+      <h2 class="titulo">Abertura de Caixa - Explosão Açaí</h2>
     </header>
 
     <div class="form-section">
       <h2>Abrir Caixa</h2>
       <label for="abertura">Valor de Abertura (R$):</label>
-      <input 
+      <input class="inputValor" 
         type="number" 
         id="abertura" 
         placeholder="Ex: 100.00" 
@@ -294,12 +304,13 @@
         return;
       }
 
+      localStorage.setItem('dataAbertura', new Date().toLocaleString());
       localStorage.setItem('valorAbertura', valor.toFixed(2));
       localStorage.setItem('caixaAberto', 'true');
       localStorage.setItem('totalPedidos', '0');
 
       mensagem.style.color = '#a5d6a7';
-      mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}.`;
+      mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}`;
 
       document.getElementById('btnAbrir').disabled = true;
       input.disabled = true;
@@ -307,17 +318,23 @@
 
     window.onload = () => {
       const caixaAberto = localStorage.getItem('caixaAberto');
-      if (caixaAberto === 'true') {
-        const valor = localStorage.getItem('valorAbertura') || '0.00';
-        const input = document.getElementById('abertura');
-        const botao = document.getElementById('btnAbrir');
-        const mensagem = document.getElementById('mensagem');
+      const input = document.getElementById('abertura');
+      const botao = document.getElementById('btnAbrir');
+      const mensagem = document.getElementById('mensagem');
 
-        input.value = valor;
-        input.disabled = true;
-        botao.disabled = true;
-        mensagem.style.color = '#a5d6a7';
-        mensagem.textContent = `Caixa já está aberto com R$ ${valor}.`;
+      if (caixaAberto === 'true') {
+        const valor = parseFloat(localStorage.getItem('valorAbertura'));
+
+        if (!isNaN(valor)) {
+          input.value = valor.toFixed(2);
+          input.disabled = true;
+          botao.disabled = true;
+          mensagem.style.color = '#a5d6a7';
+          mensagem.textContent = `Caixa já está aberto com R$ ${valor.toFixed(2)}`;
+        } else {
+          mensagem.style.color = '#ef5350';
+          mensagem.textContent = 'Erro: valor de abertura inválido.';
+        }
       }
     };
   </script>

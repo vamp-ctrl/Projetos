@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -98,57 +97,61 @@
     </nav>
   </header>
 
-  <ul id="historicoPedidos">
-    <!-- Histórico será inserido aqui -->
-  </ul>
+  <ul id="historicoPedidos"></ul>
 
   <button id="btnLimpar" onclick="limparHistorico()">Limpar Histórico</button>
 
   <script>
     function carregarHistorico() {
       const historico = document.getElementById('historicoPedidos');
-      const comandasSalvas = localStorage.getItem('comandas');
+      const comandasSalvas = localStorage.getItem('historicoComandas');
+      const btnLimpar = document.getElementById('btnLimpar');
+
       historico.innerHTML = '';
 
       if (!comandasSalvas) {
         historico.innerHTML = '<li>Nenhum pedido registrado ainda.</li>';
+        btnLimpar.disabled = true;
         return;
       }
 
       const comandasObj = JSON.parse(comandasSalvas);
-
-      const pedidos = Object.values(comandasObj);
+      let pedidos = Object.values(comandasObj);
 
       if (pedidos.length === 0) {
-        historico.innerHTML = '<li>Nenhum pedido registrado ainda.</li>';
+        historico.innerHTML = '<li>Nenhum pedido encontrado.</li>';
+        btnLimpar.disabled = true;
         return;
       }
 
-      pedidos.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora)); // Ordena do mais recente
+      btnLimpar.disabled = false;
+
+      pedidos.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora));
 
       pedidos.forEach(pedido => {
-      const item = document.createElement('li');
-      item.textContent =
-        `Pedido #${pedido.id}\n` +
-        `Vendedor: ${pedido.vendedor}\n` +
-        `Total: R$ ${pedido.total}\n` +
-        `Pagamento: ${pedido.pagamento}\n` +
-        `Descrição: ${pedido.descricao}\n` +
-        `Data/Hora: ${pedido.dataHora}`;
-      historico.appendChild(item);
-    });
+        // Ignora se estiver faltando campos essenciais
+        if (!pedido || !pedido.id || !pedido.vendedor || !pedido.total || !pedido.dataHora) return;
+
+        const item = document.createElement('li');
+        item.textContent =
+          `Pedido #${pedido.id}\n` +
+          `Vendedor: ${pedido.vendedor}\n` +
+          `Total: R$ ${pedido.total}\n` +
+          `Pagamento: ${pedido.pagamento}\n` +
+          `Descrição: ${pedido.descricao}\n` +
+          `Data/Hora: ${pedido.dataHora}`;
+        historico.appendChild(item);
+      });
 
     }
 
     function limparHistorico() {
       if (confirm('Tem certeza que deseja limpar todo o histórico? Essa ação não pode ser desfeita.')) {
-        localStorage.removeItem('comandas');
-        localStorage.removeItem('pedidoId');
+        localStorage.removeItem('historicoComandas');
         carregarHistorico();
         alert('Histórico limpo com sucesso!');
       }
     }
   </script>
-
 </body>
 </html>
