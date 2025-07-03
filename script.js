@@ -220,7 +220,7 @@ window.calcularTotal = function () {
         return;
       }
       trocoTotal += (valorEntregue - valor);
-      pagamentoResumo += `${forma}: R$ ${valor.toFixed(2)} (R$ ${valorEntregue.toFixed(2)}, (R$ ${(valorEntregue - valor).toFixed(2)}))<br>`;
+      pagamentoResumo += `${forma}: R$ ${valor.toFixed(2)} (Valor entregue: R$ ${valorEntregue.toFixed(2)}, Troco: R$ ${(valorEntregue - valor).toFixed(2)})<br>`;
     } else if (forma === 'Cartão') {
       pagamentoResumo += `${forma} (${tipoCartao}): R$ ${valor.toFixed(2)}<br>`;
     } else {
@@ -274,23 +274,30 @@ window.calcularTotal = function () {
   document.getElementById('comanda').style.display = 'block';
   document.getElementById('imprimirComanda').style.display = 'inline-block';
 
-    comandas[`pedido${pedidoId}`] = {
-      id: pedidoId, // Adiciona o ID aqui
-      vendedor: vendedor,
-      tipo: tipo,
-      acai: valorAcai.toFixed(2),
-      produto: valorProduto.toFixed(2),
-      pagamento: Array.from(pagamentoItens).map(item => item.querySelector('.formaPagamento').value).join(', '),
-      total: total.toFixed(2),
-      descricao: descricao,
-      dataHora: new Date().toLocaleString()
-    };
-
+  // Salvar o pedido com array de pagamentos detalhados
+  comandas[`pedido${pedidoId}`] = {
+    id: pedidoId,
+    vendedor: vendedor,
+    tipo: tipo,
+    acai: valorAcai.toFixed(2),
+    produto: valorProduto.toFixed(2),
+    pagamentos: Array.from(pagamentoItens).map(item => ({
+      forma: item.querySelector('.formaPagamento').value,
+      valor: parseFloat(item.querySelector('.valorPagamento').value) || 0,
+      tipoCartao: item.querySelector('.tipoCartao').value || null,
+      desejaTroco: item.querySelector('.desejaTroco')?.value || 'nao',
+      valorEntregue: parseFloat(item.querySelector('.valorEntregue')?.value) || 0
+    })),
+    total: total.toFixed(2),
+    descricao: descricao,
+    dataHora: new Date().toLocaleString()
+  };
 
   totalPedidos += total;
   pedidoId++;
   salvarDados();
 };
+
 
 
 /* ---------- IMPRESSÃO ---------- */

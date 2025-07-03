@@ -182,29 +182,35 @@
       return;
 }
 
-    let totalDinheiro = 0;
-    let totalPix = 0;
-    let totalCartao = 0;
-    let totalVendas = 0;
+let totalDinheiro = 0;
+let totalPix = 0;
+let totalCartao = 0;
+let totalVendas = 0;
 
-    historicoPedidos.forEach(pedido => {
-      if (!pedido.pagamento || !pedido.total) return;
-      const total = Number(pedido.total);
-      totalVendas += total;
+historicoPedidos.forEach(pedido => {
+  if (!pedido.pagamentos || !pedido.total) return;
 
-      switch (pedido.pagamento.toLowerCase()) {
-        case 'dinheiro':
-          totalDinheiro += total;
-          break;
-        case 'pix':
-          totalPix += total;
-          break;
-        case 'cartão':
-        case 'cartao':
-          totalCartao += total;
-          break;
-      }
-    });
+  pedido.pagamentos.forEach(p => {
+    const forma = p.forma?.toLowerCase();
+    const valor = parseFloat(p.valor) || 0;
+
+    switch (forma) {
+      case 'dinheiro':
+        totalDinheiro += valor;
+        break;
+      case 'pix':
+        totalPix += valor;
+        break;
+      case 'cartão':
+      case 'cartao':
+        totalCartao += valor;
+        break;
+    }
+  });
+
+  totalVendas += Number(pedido.total);
+});
+
 
     const totalFinal = valorAbertura + totalVendas + comp1 + comp2 + ifood + aipede;
     const lucro = totalFinal - valorAbertura;
