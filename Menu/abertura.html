@@ -305,10 +305,17 @@
         return;
       }
 
+      const hoje = new Date().toISOString().split('T')[0]; // Ex: '2025-07-05'
+
+      // Define novos valores para o caixa aberto
       localStorage.setItem('dataAbertura', new Date().toLocaleString());
       localStorage.setItem('valorAbertura', valor.toFixed(2));
       localStorage.setItem('caixaAberto', 'true');
       localStorage.setItem('totalPedidos', '0');
+
+      // Resetar o ID do pedido e comandas, mas mantendo o histórico antigo
+      localStorage.setItem('pedidoId', '1');
+      localStorage.setItem('comandas', '{}');
 
       mensagem.style.color = '#a5d6a7';
       mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}`;
@@ -316,6 +323,8 @@
       document.getElementById('btnAbrir').disabled = true;
       input.disabled = true;
     }
+
+
 
     window.onload = () => {
       const caixaAberto = localStorage.getItem('caixaAberto');
