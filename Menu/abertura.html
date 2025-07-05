@@ -1,352 +1,330 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Abertura de Caixa - Explosão Açaí</title>
-  <link rel="stylesheet" href="style.css" /> <!-- corrigido: removido ../ -->
-  <style>
-    :root {
-      --roxo-escuro: #1a1a2e;
-      --roxo-medio: #2a003f;
-      --roxo-claro: #d1c4e9;
-      --roxo-hover: #5e35b1;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Abertura de Caixa - Explosão Açaí</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- corrigido: removido ../ -->
+    <style>
+      :root {
+        --roxo-escuro: #1a1a2e;
+        --roxo-medio: #2a003f;
+        --roxo-claro: #d1c4e9;
+        --roxo-hover: #5e35b1;
+      }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--roxo-escuro);
-      color: var(--roxo-claro);
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      background-color: var(--roxo-medio);
-      padding: 20px;
-      width: 220px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: var(--roxo-claro);
-      padding: 10px 15px;
-      border-radius: 5px;
-      transition: background 0.3s;
-      border: 1px solid #340b49;
-    }
-
-    .sidebar a:hover {
-      background-color: #62237f;
-    }
-
-    .topnav {
-      display: none;
-    }
-
-    header, footer {
-      color: var(--roxo-claro);
-      padding: 10px;
-      text-align: center;
-    }
-
-    .topo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    .form-section {
-      background-color: var(--roxo-medio);
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #340b49;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #b39ddb;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 1.1rem;
-      border-radius: 6px;
-      border: none;
-      margin-bottom: 20px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.2rem;
-      background-color: #7e57c2;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:disabled {
-      background-color: #9575cd88;
-      cursor: not-allowed;
-    }
-
-    button:hover:not(:disabled) {
-      background-color: var(--roxo-hover);
-    }
-
-    .inputValor {
-      background-color: #3c2563;
-      color: var(--roxo-claro);
-      border: 1px solid #340b49;
-      font-size: 1.1rem;
-    }
-
-    #mensagem {
-      margin-top: 15px;
-      font-weight: bold;
-      text-align: center;
-      color: #a5d6a7;
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px;
-      background-color: transparent;
-      font-size: 0.9rem;
-      margin-top: 20px;
-    }
-
-    /* RESPONSIVO */
-    @media (max-width: 1024px) {
-      .form-section {
-        width: 90%;
+      body {
+        font-family: Arial, sans-serif;
+        background-color: var(--roxo-escuro);
+        color: var(--roxo-claro);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
       }
 
       .sidebar {
-        width: 200px;
+        background-color: var(--roxo-medio);
+        padding: 20px;
+        width: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
       }
-    }
 
-    @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    align-items: center;
-  }
+      .sidebar a {
+        text-decoration: none;
+        color: var(--roxo-claro);
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background 0.3s;
+        border: 1px solid #340b49;
+      }
 
-  .sidebar {
-    position: relative;
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
-    display: flex; /* tornamos visível */
-    background-color: var(--roxo-medio);
-    gap: 10px;
-  }
+      .sidebar a:hover {
+        background-color: #62237f;
+      }
 
-  .sidebar h2 {
-    width: 100%;
-    text-align: center;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-  }
+      .topnav {
+        display: none;
+      }
 
-  .sidebar a {
-    margin: 5px;
-    font-size: 0.9rem;
-    padding: 10px;
-    border-radius: 5px;
-  }
+      header,
+      footer {
+        color: var(--roxo-claro);
+        padding: 10px;
+        text-align: center;
+      }
 
-  .topnav {
-    display: none;
-  }
+      .topo {
+        font-size: 24px;
+        font-weight: bold;
+      }
 
-  .form-section {
-    padding: 25px 20px;
-    width: 100%;  
-    margin-bottom: 50px;
-  }
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
 
-  h1.titulo {
-    font-size: 1.4rem;
-    text-align: center;
-    padding: 10px;
-  }
 
-  footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--roxo-medio);
-    padding: 10px;
-  }
-}
-
-    @media (max-width: 480px) {
       .form-section {
-        padding: 20px 15px;
-        font-size: 0.9rem;
+        background-color: var(--roxo-medio);
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #340b49;
+        width: 100%;
+        max-width: 400px;
       }
 
       h2 {
-        font-size: 1.2rem;
+        margin-top: 0;
+        color: #b39ddb;
+        text-align: center;
+        margin-bottom: 20px;
       }
 
-      input[type="number"],
-      button {
-        font-size: 1rem;
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      input[type="number"] {
+        width: 100%;
         padding: 10px;
+        font-size: 1.1rem;
+        border-radius: 6px;
+        border: none;
+        margin-bottom: 20px;
       }
 
-      .topnav .nav-links a {
-        padding: 8px 10px;
-        font-size: 0.85rem;
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2rem;
+        background-color: #7e57c2;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <!-- Sidebar para telas grandes -->
-  <nav class="sidebar">
+      button:disabled {
+        background-color: #9575cd88;
+        cursor: not-allowed;
+      }
+
+      button:hover:not(:disabled) {
+        background-color: var(--roxo-hover);
+      }
+
+      .inputValor {
+        background-color: #3c2563;
+        color: var(--roxo-claro);
+        border: 1px solid #340b49;
+        font-size: 1.1rem;
+      }
+
+      #mensagem {
+        margin-top: 15px;
+        font-weight: bold;
+        text-align: center;
+        color: #a5d6a7;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: transparent;
+        font-size: 0.9rem;
+        margin-top: 20px;
+      }
+
+      /* RESPONSIVO */
+      @media (max-width: 1024px) {
+        .form-section {
+          width: 90%;
+        }
+
+        .sidebar {
+          width: 200px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .sidebar {
+          width: 100%;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 10px;
+          background-color: var(--roxo-medio);
+          gap: 10px;
+        }
+
+        .sidebar h2 {
+          width: 100%;
+          text-align: center;
+          font-size: 1.4rem;
+          margin-bottom: 10px;
+        }
+
+        .sidebar a {
+          margin: 5px;
+          font-size: 0.9rem;
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        .topnav {
+          display: none;
+        }
+
+        .form-section {
+          padding: 25px 20px;
+          width: 100%;
+        }
+
+        h1.titulo {
+          font-size: 1.4rem;
+          text-align: center;
+          padding: 10px;
+        }
+
+        footer {
+          background-color: var(--roxo-medio);
+          padding: 10px;
+        }
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar para telas grandes -->
+    <nav class="sidebar">
       <h2>Explosão Açai</h2>
       <a href="histórico.html">Histórico de pedidos</a>
       <a href="/index.html">Lançar Pedidos</a>
       <a href="fechamento.html">Fechamento de Caixa</a>
       <a href="relatorios.html">Relatórios</a>
-  </nav>
+    </nav>
 
-  <!-- Menu horizontal para telas pequenas -->
-  <nav class="topnav">
-    <h5 class="topo nav">Explosão Açai</h5>
-    <div class="nav-links">
-      <a href="histórico.html">Histórico de pedidos</a>
-      <a href="/index.html">Lançar Pedidos</a>
-      <a href="fechamento.html">Fechamento de Caixa</a>
-      <a href="relatorios.html">Relatórios</a>
-    </div>
-  </nav>
+    <!-- Menu horizontal para telas pequenas -->
+    <nav class="topnav">
+      <h5 class="topo nav">Explosão Açai</h5>
+      <div class="nav-links">
+        <a href="histórico.html">Histórico de pedidos</a>
+        <a href="/index.html">Lançar Pedidos</a>
+        <a href="fechamento.html">Fechamento de Caixa</a>
+        <a href="relatorios.html">Relatórios</a>
+      </div>
+    </nav>
 
-  <main>
-    <header class="topo">
-      <h2 class="titulo">Abertura de Caixa - Explosão Açaí</h2>
-    </header>
+    <main>
+      <header class="topo">
+        <h2 class="titulo">Abertura de Caixa - Explosão Açaí</h2>
+      </header>
 
-    <div class="form-section">
-      <h2>Abrir Caixa</h2>
-      <label for="abertura">Valor de Abertura (R$):</label>
-      <input class="inputValor" 
-        type="number" 
-        id="abertura" 
-        placeholder="Ex: 100.00" 
-        step="0.01" 
-        min="0"
-        oninput="validarValor()" 
-      />
-      <button id="btnAbrir" onclick="abrirCaixa()" disabled>Abrir Caixa</button>
-      <div id="mensagem"></div>
-    </div>
+      <div class="form-section">
+        <h2>Abrir Caixa</h2>
+        <label for="abertura">Valor de Abertura (R$):</label>
+        <input
+          class="inputValor"
+          type="number"
+          id="abertura"
+          placeholder="Ex: 100.00"
+          step="0.01"
+          min="0"
+          oninput="validarValor()"
+        />
+        <button id="btnAbrir" onclick="abrirCaixa()" disabled>
+          Abrir Caixa
+        </button>
+        <div id="mensagem"></div>
+      </div>
 
-    <footer>
-      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
-    </footer>
-  </main>
+      <footer>
+        <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+      </footer>
+    </main>
 
-  <script>
-    function validarValor() {
-      const input = document.getElementById('abertura');
-      const botao = document.getElementById('btnAbrir');
-      const valor = parseFloat(input.value);
-      botao.disabled = isNaN(valor) || valor < 0;
-    }
-
-    function abrirCaixa() {
-      const input = document.getElementById('abertura');
-      const mensagem = document.getElementById('mensagem');
-      const valor = parseFloat(input.value);
-
-      if (isNaN(valor) || valor < 0) {
-        mensagem.style.color = '#ef5350';
-        mensagem.textContent = 'Por favor, insira um valor válido para abrir o caixa.';
-        return;
+    <script>
+      function validarValor() {
+        const input = document.getElementById("abertura");
+        const botao = document.getElementById("btnAbrir");
+        const valor = parseFloat(input.value);
+        botao.disabled = isNaN(valor) || valor < 0;
       }
 
-      const hoje = new Date().toISOString().split('T')[0]; // Ex: '2025-07-05'
+      function abrirCaixa() {
+        const input = document.getElementById("abertura");
+        const mensagem = document.getElementById("mensagem");
+        const valor = parseFloat(input.value);
 
-      // Define novos valores para o caixa aberto
-      localStorage.setItem('dataAbertura', new Date().toLocaleString());
-      localStorage.setItem('valorAbertura', valor.toFixed(2));
-      localStorage.setItem('caixaAberto', 'true');
-      localStorage.setItem('totalPedidos', '0');
-
-      // Resetar o ID do pedido e comandas, mas mantendo o histórico antigo
-      localStorage.setItem('pedidoId', '1');
-      localStorage.setItem('comandas', '{}');
-
-      mensagem.style.color = '#a5d6a7';
-      mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}`;
-
-      document.getElementById('btnAbrir').disabled = true;
-      input.disabled = true;
-    }
-
-
-
-    window.onload = () => {
-      const caixaAberto = localStorage.getItem('caixaAberto');
-      const input = document.getElementById('abertura');
-      const botao = document.getElementById('btnAbrir');
-      const mensagem = document.getElementById('mensagem');
-
-      if (caixaAberto === 'true') {
-        const valor = parseFloat(localStorage.getItem('valorAbertura'));
-
-        if (!isNaN(valor)) {
-          input.value = valor.toFixed(2);
-          input.disabled = true;
-          botao.disabled = true;
-          mensagem.style.color = '#a5d6a7';
-          mensagem.textContent = `Caixa já está aberto com R$ ${valor.toFixed(2)}`;
-        } else {
-          mensagem.style.color = '#ef5350';
-          mensagem.textContent = 'Erro: valor de abertura inválido.';
+        if (isNaN(valor) || valor < 0) {
+          mensagem.style.color = "#ef5350";
+          mensagem.textContent =
+            "Por favor, insira um valor válido para abrir o caixa.";
+          return;
         }
+
+        const hoje = new Date().toISOString().split("T")[0]; // Ex: '2025-07-05'
+
+        // Define novos valores para o caixa aberto
+        localStorage.setItem("dataAbertura", new Date().toLocaleString());
+        localStorage.setItem("valorAbertura", valor.toFixed(2));
+        localStorage.setItem("caixaAberto", "true");
+        localStorage.setItem("totalPedidos", "0");
+
+        // Resetar o ID do pedido e comandas, mas mantendo o histórico antigo
+        localStorage.setItem("pedidoId", "1");
+        localStorage.setItem("comandas", "{}");
+
+        mensagem.style.color = "#a5d6a7";
+        mensagem.textContent = `Caixa aberto com R$ ${valor.toFixed(2)}`;
+
+        document.getElementById("btnAbrir").disabled = true;
+        input.disabled = true;
       }
-    };
-  </script>
-</body>
+
+      window.onload = () => {
+        const caixaAberto = localStorage.getItem("caixaAberto");
+        const input = document.getElementById("abertura");
+        const botao = document.getElementById("btnAbrir");
+        const mensagem = document.getElementById("mensagem");
+
+        if (caixaAberto === "true") {
+          const valor = parseFloat(localStorage.getItem("valorAbertura"));
+
+          if (!isNaN(valor)) {
+            input.value = valor.toFixed(2);
+            input.disabled = true;
+            botao.disabled = true;
+            mensagem.style.color = "#a5d6a7";
+            mensagem.textContent = `Caixa já está aberto com R$ ${valor.toFixed(
+              2
+            )}`;
+          } else {
+            mensagem.style.color = "#ef5350";
+            mensagem.textContent = "Erro: valor de abertura inválido.";
+          }
+        }
+      };
+    </script>
+  </body>
 </html>

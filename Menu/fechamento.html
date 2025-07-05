@@ -1,321 +1,379 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fechamento de Caixa - Explosão Açaí</title>
-  <link rel="stylesheet" href="../style.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #1a1a2e;
-      color: #d1c4e9;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-      padding: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fechamento de Caixa - Explosão Açaí</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a2e;
+        color: #d1c4e9;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
 
-    header {
-      text-align: center;
-      padding: 15px 0;
-      color: #d1c4e9;
-      display: flex;
-      justify-content: center;
-      margin-left: 200px;
-    }
-
-
-    nav.sidebar {
-      width: 240px;
-      background-color: #2a003f;
-      padding: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    nav.sidebar h1 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      background-color: #3a0055;
-      border-radius: 50px;
-      color: var(--roxo-claro, #d1c4e9);
-    }
-
-    nav.sidebar a {
-      text-decoration: none;
-      color: var(--roxo-claro, #d1c4e9);
-      font-size: 1rem;
-      padding: 10px;
-      border: 1px solid #340b49;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-
-    nav.sidebar a:hover {
-      background-color: #3a0055;
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      margin-left: 190px;
-    }
-
-
-    .resultado {
-      background-color: #2a003f;
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #3a0055;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      margin: 0 auto;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #b39ddb;
-      margin-bottom: 20px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.2rem;
-      background-color: #410261;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-bottom: 20px;
-    }
-
-    button:hover {
-      background-color: #3a0055;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: none;
-      font-size: 1rem;
-      background-color: var(--roxo-input, #3a0055);
-      color: var(--roxo-claro, #d1c4e9);
-    }
-
-    #fechamento {
-      background-color: #410261;
-      padding: 15px 20px;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      font-family: monospace;
-      font-size: 1.1rem;
-      color: #d1c4e9;
-      display: none;
-      text-align: left;
-    }
-
-    footer {
-      text-align: center;
-      padding: 15px 0;
-      color: #d1c4e9;
-      margin-left: 200px;
-    }
-
-    /* ---------- RESPONSIVIDADE ---------- */
-    @media (max-width: 768px) {
       header {
-        margin-left: 0; /* Remove o recuo lateral no celular */
         text-align: center;
-      }
-      nav.sidebar {
-        position: relative;
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
+        padding: 15px 0;
+        color: #d1c4e9;
+        display: flex;
         justify-content: center;
-        padding: 10px;
+        margin-left: 200px;
       }
 
-      .nome{
-        display: none;
+      nav.sidebar {
+        width: 240px;
+        background-color: #2a003f;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
       }
 
       nav.sidebar h1 {
-        width: 100%;
-        text-align: center;
-        margin-bottom: 10px;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        background-color: #3a0055;
+        border-radius: 50px;
+        color: var(--roxo-claro, #d1c4e9);
       }
 
       nav.sidebar a {
-        margin: 5px;
-        font-size: 0.9rem;
+        text-decoration: none;
+        color: var(--roxo-claro, #d1c4e9);
+        font-size: 1rem;
+        padding: 10px;
+        border: 1px solid #340b49;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      nav.sidebar a:hover {
+        background-color: #3a0055;
       }
 
       main {
-        margin-left: 0;
-        padding: 20px 10px;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin-left: 190px;
       }
 
       .resultado {
-        max-width: 100%;
-        padding: 20px;
+        background-color: #2a003f;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 15px #3a0055;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      h2 {
+        margin-top: 0;
+        color: #b39ddb;
+        margin-bottom: 20px;
       }
 
       button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.2rem;
+        background-color: #410261;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 20px;
+      }
+
+      button:hover {
+        background-color: #3a0055;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
         font-size: 1rem;
+        background-color: var(--roxo-input, #3a0055);
+        color: var(--roxo-claro, #d1c4e9);
+      }
+
+      #fechamento {
+        background-color: #410261;
+        padding: 15px 20px;
+        border-radius: 10px;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 1.1rem;
+        color: #d1c4e9;
+        display: none;
+        text-align: left;
       }
 
       footer {
-        margin-left: 0;
-        background-color: #2a003f;
+        text-align: center;
+        padding: 15px 0;
+        color: #d1c4e9;
+        margin-left: 200px;
       }
-    }
 
-  </style>
-</head>
-<body>
-  <header>
-    <h1 class="titulo">Fechamento de Caixa - Explosão Açaí</h1>
-  </header>
+      /* ---------- RESPONSIVIDADE ---------- */
+      @media (max-width: 768px) {
+        header {
+          margin-left: 0; /* Remove o recuo lateral no celular */
+          text-align: center;
+        }
+        nav.sidebar {
+          position: relative;
+          width: 100%;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: center;
+          padding: 10px;
+        }
 
-  <nav class="sidebar">
-    <h1 class="nome">Explosão Açaí</h1>
-    <a href="./abertura.html">Abertura de Caixa</a>
-    <a href="../index.html">Lançar Pedidos</a>
-    <a href="./histórico.html">Histórico de Pedidos</a>
-    <a href="./relatorios.html">Relatórios</a>
-  </nav>
+        .nome {
+          display: none;
+        }
 
-  <main>
-    <div class="resultado">
-      <h2>Fechamento de Caixa</h2>
-      <label for="comp1">Computador 1 (R$):</label>
-      <input type="number" id="comp1" step="0.01" placeholder="Valor do Comp. 1" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: none; font-size: 1rem;">
+        nav.sidebar h1 {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 10px;
+        }
 
-      <label for="comp2">Computador 2 (R$):</label>
-      <input type="number" id="comp2" step="0.01" placeholder="Valor do Comp. 2" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: none; font-size: 1rem;">
+        nav.sidebar a {
+          margin: 5px;
+          font-size: 0.9rem;
+        }
 
-      <label for="ifood">iFood (R$):</label>
-      <input type="number" id="ifood" step="0.01" placeholder="Valor do iFood" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: none; font-size: 1rem;">
+        main {
+          margin-left: 0;
+          padding: 20px 10px;
+        }
 
-      <label for="aipede">AiPede (R$):</label>
-      <input type="number" id="aipede" step="0.01" placeholder="Valor do AiPede" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px; border: none; font-size: 1rem;">
+        .resultado {
+          max-width: 100%;
+          padding: 20px;
+        }
 
-      <button id="btnFechar" onclick="fecharCaixa()">Fechar Caixa</button>
-      <div id="fechamento"></div>
-    </div>
-  </main>
+        button {
+          font-size: 1rem;
+        }
 
-  <footer>
-    <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
-  </footer>
+        footer {
+          margin-left: 0;
+          background-color: #2a003f;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 class="titulo">Fechamento de Caixa - Explosão Açaí</h1>
+    </header>
 
-  <!-- fechamento.html - atualizado -->
-<!-- (somente o script final está modificado) -->
-<script>
-  function fecharCaixa() {
-    const caixaAberto = localStorage.getItem('caixaAberto');
-    const valorAbertura = parseFloat(localStorage.getItem('valorAbertura')) || 0;
-    const comandasObj = JSON.parse(localStorage.getItem('comandas') || '{}');
-    const historicoPedidos = Object.values(comandasObj);
+    <nav class="sidebar">
+      <h1 class="nome">Explosão Açaí</h1>
+      <a href="./abertura.html">Abertura de Caixa</a>
+      <a href="../index.html">Lançar Pedidos</a>
+      <a href="./histórico.html">Histórico de Pedidos</a>
+      <a href="./relatorios.html">Relatórios</a>
+    </nav>
 
-    const fechamentoDiv = document.getElementById('fechamento');
-    const botao = document.getElementById('btnFechar');
+    <main>
+      <div class="resultado">
+        <h2>Fechamento de Caixa</h2>
+        <label for="comp1">Computador 1 (R$):</label>
+        <input
+          type="number"
+          id="comp1"
+          step="0.01"
+          placeholder="Valor do Comp. 1"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
 
-    if (caixaAberto !== 'true') {
-      alert('Caixa ainda não foi aberto.');
-      return;
-    }
+        <label for="comp2">Computador 2 (R$):</label>
+        <input
+          type="number"
+          id="comp2"
+          step="0.01"
+          placeholder="Valor do Comp. 2"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
 
-    const comp1 = parseFloat(document.getElementById('comp1').value) || 0;
-    const comp2 = parseFloat(document.getElementById('comp2').value) || 0;
-    const ifood = parseFloat(document.getElementById('ifood').value) || 0;
-    const aipede = parseFloat(document.getElementById('aipede').value) || 0;
+        <label for="ifood">iFood (R$):</label>
+        <input
+          type="number"
+          id="ifood"
+          step="0.01"
+          placeholder="Valor do iFood"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
 
-    if (comp1 < 0 || comp2 < 0 || ifood < 0 || aipede < 0) {
-      alert('Os valores não podem ser negativos.');
-      return;
-}
+        <label for="aipede">AiPede (R$):</label>
+        <input
+          type="number"
+          id="aipede"
+          step="0.01"
+          placeholder="Valor do AiPede"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
 
-let totalDinheiro = 0;
-let totalPix = 0;
-let totalCartao = 0;
-let totalVendas = 0;
+        <button id="btnFechar" onclick="fecharCaixa()">Fechar Caixa</button>
+        <div id="fechamento"></div>
+      </div>
+    </main>
 
-historicoPedidos.forEach(pedido => {
-  if (!pedido.pagamentos || !pedido.total) return;
+    <footer>
+      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+    </footer>
 
-  pedido.pagamentos.forEach(p => {
-    const forma = p.forma?.toLowerCase();
-    const valor = parseFloat(p.valor) || 0;
+    <!-- fechamento.html - atualizado -->
+    <!-- (somente o script final está modificado) -->
+    <script>
+      function fecharCaixa() {
+        const caixaAberto = localStorage.getItem("caixaAberto");
+        const valorAbertura =
+          parseFloat(localStorage.getItem("valorAbertura")) || 0;
+        const comandasObj = JSON.parse(
+          localStorage.getItem("comandas") || "{}"
+        );
+        const historicoPedidos = Object.values(comandasObj);
 
-    switch (forma) {
-      case 'dinheiro':
-        totalDinheiro += valor;
-        break;
-      case 'pix':
-        totalPix += valor;
-        break;
-      case 'cartão':
-      case 'cartao':
-        totalCartao += valor;
-        break;
-    }
-  });
+        const fechamentoDiv = document.getElementById("fechamento");
+        const botao = document.getElementById("btnFechar");
 
-  totalVendas += Number(pedido.total);
-});
+        if (caixaAberto !== "true") {
+          alert("Caixa ainda não foi aberto.");
+          return;
+        }
 
+        const comp1 = parseFloat(document.getElementById("comp1").value) || 0;
+        const comp2 = parseFloat(document.getElementById("comp2").value) || 0;
+        const ifood = parseFloat(document.getElementById("ifood").value) || 0;
+        const aipede = parseFloat(document.getElementById("aipede").value) || 0;
 
-    const totalFinal = valorAbertura + totalVendas + comp1 + comp2 + ifood + aipede;
-    const lucro = totalFinal - valorAbertura;
-    if (totalFinal < 0) {
-      alert('O total final não pode ser negativo. Verifique os valores inseridos.');
-      return;
-    }
+        if (comp1 < 0 || comp2 < 0 || ifood < 0 || aipede < 0) {
+          alert("Os valores não podem ser negativos.");
+          return;
+        }
 
-    // Salvar histórico de fechamento
-    const historicoFechamentos = JSON.parse(localStorage.getItem('historicoFechamentos')) || [];
-    historicoFechamentos.push({
-      dataHora: new Date().toLocaleString(),
-      abertura: valorAbertura.toFixed(2),
-      vendas: totalVendas.toFixed(2),
-      comp1: comp1.toFixed(2),
-      comp2: comp2.toFixed(2),
-      ifood: ifood.toFixed(2),
-      aipede: aipede.toFixed(2),
-      dinheiro: totalDinheiro.toFixed(2),
-      pix: totalPix.toFixed(2),
-      cartao: totalCartao.toFixed(2),
-      totalFinal: totalFinal.toFixed(2),
-      lucro: lucro.toFixed(2)
-    });
-    localStorage.setItem('historicoFechamentos', JSON.stringify(historicoFechamentos));
+        let totalDinheiro = 0;
+        let totalPix = 0;
+        let totalCartao = 0;
+        let totalVendas = 0;
 
-    // 👉 Salvar histórico de pedidos agrupados por dia
-    const dataHoje = new Date().toISOString().split('T')[0]; // formato "2025-07-03"
-    localStorage.setItem(`historicoFechamento-${dataHoje}`, JSON.stringify(comandasObj));
+        historicoPedidos.forEach((pedido) => {
+          if (!pedido.pagamentos || !pedido.total) return;
 
+          pedido.pagamentos.forEach((p) => {
+            const forma = p.forma?.toLowerCase();
+            const valor = parseFloat(p.valor) || 0;
 
-    const fechamento =
-`RESUMO DO CAIXA
+            switch (forma) {
+              case "dinheiro":
+                totalDinheiro += valor;
+                break;
+              case "pix":
+                totalPix += valor;
+                break;
+              case "cartão":
+              case "cartao":
+                totalCartao += valor;
+                break;
+            }
+          });
+
+          totalVendas += Number(pedido.total);
+        });
+
+        const totalFinal =
+          valorAbertura + totalVendas + comp1 + comp2 + ifood + aipede;
+        const lucro = totalFinal - valorAbertura;
+        if (totalFinal < 0) {
+          alert(
+            "O total final não pode ser negativo. Verifique os valores inseridos."
+          );
+          return;
+        }
+
+        // Salvar histórico de fechamento
+        const historicoFechamentos =
+          JSON.parse(localStorage.getItem("historicoFechamentos")) || [];
+        historicoFechamentos.push({
+          dataHora: new Date().toLocaleString(),
+          abertura: valorAbertura.toFixed(2),
+          vendas: totalVendas.toFixed(2),
+          comp1: comp1.toFixed(2),
+          comp2: comp2.toFixed(2),
+          ifood: ifood.toFixed(2),
+          aipede: aipede.toFixed(2),
+          dinheiro: totalDinheiro.toFixed(2),
+          pix: totalPix.toFixed(2),
+          cartao: totalCartao.toFixed(2),
+          totalFinal: totalFinal.toFixed(2),
+          lucro: lucro.toFixed(2),
+        });
+        localStorage.setItem(
+          "historicoFechamentos",
+          JSON.stringify(historicoFechamentos)
+        );
+
+        // 👉 Salvar histórico de pedidos agrupados por dia
+        const dataHoje = new Date().toISOString().split("T")[0]; // formato "2025-07-03"
+        localStorage.setItem(
+          `historicoFechamento-${dataHoje}`,
+          JSON.stringify(comandasObj)
+        );
+
+        const fechamento = `RESUMO DO CAIXA
 ----------------------------
 
 Abertura:         R$ ${valorAbertura.toFixed(2)}
@@ -340,34 +398,31 @@ Total Final:      R$ ${totalFinal.toFixed(2)}
 ----------------------------
 Fechamento em: ${new Date().toLocaleString()}`;
 
-    fechamentoDiv.textContent = fechamento;
-    fechamentoDiv.style.display = 'block';
-    botao.disabled = true;
+        fechamentoDiv.textContent = fechamento;
+        fechamentoDiv.style.display = "block";
+        botao.disabled = true;
 
-    // Limpar dados temporários
-    localStorage.removeItem('caixaAberto');
-    localStorage.removeItem('valorAbertura');
-    localStorage.removeItem('totalPedidos');
-    localStorage.removeItem('comandas');
-    localStorage.removeItem('pedidoId', '1');
-  }
+        // Limpar dados temporários
+        localStorage.removeItem("caixaAberto");
+        localStorage.removeItem("valorAbertura");
+        localStorage.removeItem("totalPedidos");
+        localStorage.removeItem("comandas");
+        localStorage.removeItem("pedidoId", "1");
+      }
 
-  window.onload = () => {
-    const caixaAberto = localStorage.getItem('caixaAberto');
-    if (caixaAberto !== 'true') {
-      document.getElementById('fechamento').textContent = 'Caixa não está aberto. Abra o caixa antes de fechar.';
-      document.getElementById('fechamento').style.display = 'block';
-      document.getElementById('btnFechar').disabled = true;
-      document.getElementById('comp1').value = '';
-      document.getElementById('comp2').value = '';
-      document.getElementById('ifood').value = '';
-      document.getElementById('aipede').value = '';
-
-    }
-  };
-
-  
-</script>
-
-</body>
-</html>  
+      window.onload = () => {
+        const caixaAberto = localStorage.getItem("caixaAberto");
+        if (caixaAberto !== "true") {
+          document.getElementById("fechamento").textContent =
+            "Caixa não está aberto. Abra o caixa antes de fechar.";
+          document.getElementById("fechamento").style.display = "block";
+          document.getElementById("btnFechar").disabled = true;
+          document.getElementById("comp1").value = "";
+          document.getElementById("comp2").value = "";
+          document.getElementById("ifood").value = "";
+          document.getElementById("aipede").value = "";
+        }
+      };
+    </script>
+  </body>
+</html>

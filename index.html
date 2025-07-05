@@ -1,77 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerenciador de Caixa - Explosão Açaí</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <nav class="sidebar" id="sidebar">
-    <h1>Explosão Açaí</h1>
-    <a href="./Menu/abertura.html">Abertura de Caixa</a>
-    <a href="./Menu/histórico.html">Histórico de Pedidos</a>
-    <a href="./Menu/fechamento.html">Fechamento de Caixa</a>
-    <a href="./Menu/relatorios.html">Relatórios</a>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciador de Caixa - Explosão Açaí</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="sidebar" id="sidebar">
+      <h1>Explosão Açaí</h1>
+      <a href="./Menu/abertura.html">Abertura de Caixa</a>
+      <a href="./Menu/histórico.html">Histórico de Pedidos</a>
+      <a href="./Menu/fechamento.html">Fechamento de Caixa</a>
+      <a href="./Menu/relatorios.html">Relatórios</a>
+    </nav>
 
-  <div class="main-content">
-    <header>
-      <h1>Gerenciador de Caixa</h1>
-    </header>
+    <div class="main-content">
+      <header>
+        <h1>Gerenciador de Caixa</h1>
+      </header>
 
-    <main>
-      <div class="form-section">
-        <h2>Lançar Pedido</h2>
+      <main>
+        <div class="form-section">
+          <h2>Lançar Pedido</h2>
 
-        <label for="vendedorInput">Vendedor:</label>
-        <input type="text" id="vendedorInput" placeholder="Digite o nome do vendedor" />
+          <label for="vendedorInput">Vendedor:</label>
+          <input
+            type="text"
+            id="vendedorInput"
+            placeholder="Digite o nome do vendedor"
+          />
 
-        <label for="tipoPedido">Tipo de Pedido:</label>
-        <select id="tipoPedido">
-          <option value="" disabled selected hidden>Selecione</option>
-          <option value="acai">Açaí</option>
-          <option value="produto">Produto</option>
-          <option value="ambos">Ambos</option>
-        </select>
+          <label for="tipoPedido">Tipo de Pedido:</label>
+          <select id="tipoPedido">
+            <option value="" disabled selected hidden>Selecione</option>
+            <option value="acai">Açaí</option>
+            <option value="produto">Produto</option>
+            <option value="ambos">Ambos</option>
+          </select>
 
-        <div id="campoAcai" style="display: none;">
-          <label for="valorAcai">Valor do Açaí (R$):</label>
-          <input type="number" id="valorAcai" step="0.01" />
+          <div id="campoAcai" style="display: none">
+            <label for="valorAcai">Valor do Açaí (R$):</label>
+            <input type="number" id="valorAcai" step="0.01" />
+          </div>
+
+          <div id="campoProduto" style="display: none">
+            <label for="valorProduto">Valor do Produto (R$):</label>
+            <input type="number" id="valorProduto" step="0.01" />
+          </div>
+
+          <label>Formas de Pagamento:</label>
+          <div id="pagamentosContainer"></div>
+          <button
+            type="button"
+            id="btnAdicionarPagamento"
+            onclick="adicionarPagamento()"
+          >
+            + Adicionar Forma de Pagamento
+          </button>
+
+          <label for="descricao">Descrição (opcional):</label>
+          <textarea
+            id="descricao"
+            maxlength="100"
+            rows="3"
+            placeholder="Descrição:"
+          ></textarea>
+
+          <button onclick="calcularTotal()">Lançar Pedido</button>
         </div>
 
-        <div id="campoProduto" style="display: none;">
-          <label for="valorProduto">Valor do Produto (R$):</label>
-          <input type="number" id="valorProduto" step="0.01" />
+        <div class="resultado">
+          <h2>Resumo do Pedido</h2>
+          <p id="resumo">Preencha os campos para calcular.</p>
+          <div id="comanda" class="comanda" style="display: none"></div>
+          <button
+            id="imprimirComanda"
+            style="display: none"
+            onclick="imprimirComanda()"
+          >
+            Imprimir Comanda
+          </button>
         </div>
+        <button type="button" onclick="resetarTudo()">Apagar Tudo</button>
+      </main>
 
-        <label>Formas de Pagamento:</label>
-        <div id="pagamentosContainer"></div>
-        <button type="button" id="btnAdicionarPagamento" onclick="adicionarPagamento()">+ Adicionar Forma de Pagamento</button>
+      <footer>
+        <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+      </footer>
+    </div>
 
-        <label for="descricao">Descrição (opcional):</label>
-        <textarea id="descricao" maxlength="100" rows="3" placeholder="Descrição:"></textarea>
-
-
-        <button onclick="calcularTotal()">Lançar Pedido</button>
-      </div>
-
-      <div class="resultado">
-        <h2>Resumo do Pedido</h2>
-        <p id="resumo">Preencha os campos para calcular.</p>
-        <div id="comanda" class="comanda" style="display:none;"></div>
-        <button id="imprimirComanda" style="display:none;" onclick="imprimirComanda()">Imprimir Comanda</button>
-      </div>
-      <button type="button" onclick="resetarTudo()">Apagar Tudo</button>
-
-    </main>
-
-    <footer>
-      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
-    </footer>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-</body>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+  </body>
 </html>

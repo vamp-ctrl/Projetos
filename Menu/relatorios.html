@@ -1,197 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Relatórios de Fechamento - Explosão Açaí</title>
-  <style>
-    :root {
-      --roxo-escuro: #1a1a2e;
-      --roxo-medio: #2a003f;
-      --roxo-claro: #d1c4e9;
-      --roxo-hover: #5e35b1;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relatórios de Fechamento - Explosão Açaí</title>
+    <style>
+      :root {
+        --roxo-escuro: #1a1a2e;
+        --roxo-medio: #2a003f;
+        --roxo-claro: #d1c4e9;
+        --roxo-hover: #5e35b1;
+      }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: var(--roxo-escuro);
-      color: var(--roxo-claro);
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Sidebar para telas grandes */
-    .sidebar {
-      background-color: var(--roxo-medio);
-      padding: 20px;
-      width: 220px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .sidebar h1 {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      background-color: #3a0055;
-      border-radius: 50px;
-      padding: 10px;
-      text-align: center;
-      color: var(--roxo-claro);
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: var(--roxo-claro);
-      font-size: 1rem;
-      padding: 10px;
-      border: 1px solid #340b49;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-
-    .sidebar a:hover {
-      background-color: #62237f;
-    }
-
-    /* Menu para celular */
-    .topnav {
-      display: none;
-    }
-
-    main {
-      flex: 1;
-      padding: 20px;
-    }
-
-    h2 {
-      color: #b39ddb;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .relatorio {
-      background-color: var(--roxo-medio);
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px #3a0055;
-      white-space: pre-wrap;
-      font-family: monospace;
-      color: var(--roxo-claro);
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: var(--roxo-claro);   
-      display: none;
-    }
-
-    /* RESPONSIVO */
-    @media (max-width: 768px) {
       body {
-        flex-direction: column;
-        align-items: center;
+        font-family: Arial, sans-serif;
+        background-color: var(--roxo-escuro);
+        color: var(--roxo-claro);
+        display: flex;
+        min-height: 100vh;
       }
 
+      /* Sidebar para telas grandes */
       .sidebar {
-        display: none;
-      }
-
-      .topnav {
+        background-color: var(--roxo-medio);
+        padding: 20px;
+        width: 220px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        background-color: var(--roxo-medio);
-        padding: 15px 10px;
-        width: 100%;
-        gap: 10px;
+        gap: 15px;
       }
 
-      .topnav h5 {
-        font-size: 1.2rem;
+      .sidebar h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        background-color: #3a0055;
+        border-radius: 50px;
+        padding: 10px;
+        text-align: center;
+        color: var(--roxo-claro);
       }
 
-      .topnav .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      .topnav .nav-links a {
+      .sidebar a {
         text-decoration: none;
         color: var(--roxo-claro);
-        font-size: 0.95rem;
-        padding: 10px 12px;
+        font-size: 1rem;
+        padding: 10px;
         border: 1px solid #340b49;
         border-radius: 5px;
         transition: background 0.3s;
       }
 
-      .topnav .nav-links a:hover {
-        background-color: #3a0055;
+      .sidebar a:hover {
+        background-color: #62237f;
+      }
+
+      /* Menu para celular */
+      .topnav {
+        display: none;
+      }
+
+      main {
+        flex: 1;
+        padding: 20px;
+      }
+
+      h2 {
+        color: #b39ddb;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .relatorio {
+        background-color: var(--roxo-medio);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 0 10px #3a0055;
+        white-space: pre-wrap;
+        font-family: monospace;
+        color: var(--roxo-claro);
       }
 
       footer {
-        display: block;
+        text-align: center;
+        padding: 20px;
+        color: var(--roxo-claro);
+        display: none;
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Sidebar desktop -->
-  <nav class="sidebar">
-    <h1>Explosão Açaí</h1>
-    <a href="./abertura.html">Abertura de Caixa</a>
-    <a href="../index.html">Lançar Pedidos</a>
-    <a href="./histórico.html">Histórico de Pedidos</a>
-    <a href="./fechamento.html">Fechamento de Caixa</a>
-  </nav>
 
-  <!-- Topnav mobile -->
-  <nav class="topnav">
-    <h5>Explosão Açaí</h5>
-    <div class="nav-links">
+      /* RESPONSIVO */
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .topnav {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: var(--roxo-medio);
+          padding: 15px 10px;
+          width: 100%;
+          gap: 10px;
+        }
+
+        .topnav h5 {
+          font-size: 1.2rem;
+        }
+
+        .topnav .nav-links {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 10px;
+        }
+
+        .topnav .nav-links a {
+          text-decoration: none;
+          color: var(--roxo-claro);
+          font-size: 0.95rem;
+          padding: 10px 12px;
+          border: 1px solid #340b49;
+          border-radius: 5px;
+          transition: background 0.3s;
+        }
+
+        .topnav .nav-links a:hover {
+          background-color: #3a0055;
+        }
+
+        footer {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar desktop -->
+    <nav class="sidebar">
+      <h1>Explosão Açaí</h1>
       <a href="./abertura.html">Abertura de Caixa</a>
       <a href="../index.html">Lançar Pedidos</a>
       <a href="./histórico.html">Histórico de Pedidos</a>
-      <a href="./fechamento.html">Fechamento</a>
-    </div>
-  </nav>
+      <a href="./fechamento.html">Fechamento de Caixa</a>
+    </nav>
 
-  <main>
-    <h2>Relatórios de Fechamento</h2>
-    <div id="relatorios"></div>
-  </main>
+    <!-- Topnav mobile -->
+    <nav class="topnav">
+      <h5>Explosão Açaí</h5>
+      <div class="nav-links">
+        <a href="./abertura.html">Abertura de Caixa</a>
+        <a href="../index.html">Lançar Pedidos</a>
+        <a href="./histórico.html">Histórico de Pedidos</a>
+        <a href="./fechamento.html">Fechamento</a>
+      </div>
+    </nav>
 
-  <footer>
-    <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
-  </footer>
+    <main>
+      <h2>Relatórios de Fechamento</h2>
+      <div id="relatorios"></div>
+    </main>
 
-  <script>
-    const relatorios = JSON.parse(localStorage.getItem('historicoFechamentos') || '[]');
-    const container = document.getElementById('relatorios');
+    <footer>
+      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+    </footer>
 
-    function carregarRelatorios() {
-      container.innerHTML = '';
+    <script>
+      const relatorios = JSON.parse(
+        localStorage.getItem("historicoFechamentos") || "[]"
+      );
+      const container = document.getElementById("relatorios");
 
-      if (relatorios.length === 0) {
-        container.textContent = 'Nenhum fechamento registrado.\n\nUse o menu para registrar um.';
-        return;
-      }
+      function carregarRelatorios() {
+        container.innerHTML = "";
 
-      relatorios.slice().reverse().forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'relatorio';
-        div.textContent = `Fechamento ${relatorios.length - index}
+        if (relatorios.length === 0) {
+          container.textContent =
+            "Nenhum fechamento registrado.\n\nUse o menu para registrar um.";
+          return;
+        }
+
+        relatorios
+          .slice()
+          .reverse()
+          .forEach((item, index) => {
+            const div = document.createElement("div");
+            div.className = "relatorio";
+            div.textContent = `Fechamento ${relatorios.length - index}
 ----------------------------
 Data/Hora:       ${item.dataHora}
 Abertura:        R$ ${item.abertura}
@@ -209,11 +215,11 @@ Recebido:
 Total Final:     R$ ${item.totalFinal}
 Lucro:           R$ ${item.lucro}
 ----------------------------`;
-        container.appendChild(div);
-      });
-    }
+            container.appendChild(div);
+          });
+      }
 
-    carregarRelatorios();
-  </script>
-</body>
+      carregarRelatorios();
+    </script>
+  </body>
 </html>
