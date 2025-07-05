@@ -15,13 +15,19 @@
       flex-direction: column;
       min-height: 100vh;
       margin: 0;
-      padding: 0 20px;
+      padding: 0;
     }
+
     header {
       text-align: center;
       padding: 15px 0;
       color: #d1c4e9;
+      display: flex;
+      justify-content: center;
+      margin-left: 200px;
     }
+
+
     nav.sidebar {
       width: 240px;
       background-color: #2a003f;
@@ -34,32 +40,39 @@
       flex-direction: column;
       gap: 15px;
     }
+
     nav.sidebar h1 {
       font-size: 1.5rem;
       margin-bottom: 20px;
       background-color: #3a0055;
       border-radius: 50px;
-      color: var(--roxo-claro);
+      color: var(--roxo-claro, #d1c4e9);
     }
+
     nav.sidebar a {
       text-decoration: none;
-      color: var(--roxo-claro);
+      color: var(--roxo-claro, #d1c4e9);
       font-size: 1rem;
       padding: 10px;
       border: 1px solid #340b49;
       border-radius: 5px;
       transition: background 0.3s;
     }
+
     nav.sidebar a:hover {
       background-color: #3a0055;
     }
+
     main {
       flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-left: 260px;
+      padding: 20px;
+      margin-left: 190px;
     }
+
+
     .resultado {
       background-color: #2a003f;
       padding: 30px 40px;
@@ -68,12 +81,15 @@
       width: 100%;
       max-width: 400px;
       text-align: center;
+      margin: 0 auto;
     }
+
     h2 {
       margin-top: 0;
       color: #b39ddb;
       margin-bottom: 20px;
     }
+
     button {
       width: 100%;
       padding: 12px;
@@ -86,20 +102,23 @@
       transition: background-color 0.3s ease;
       margin-bottom: 20px;
     }
+
     button:hover {
       background-color: #3a0055;
     }
 
-    input{
+    input {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
+      margin-bottom: 10px;
       border-radius: 5px;
       border: none;
       font-size: 1rem;
-      background-color: var(--roxo-input);
-      color: var(--roxo-claro);
+      background-color: var(--roxo-input, #3a0055);
+      color: var(--roxo-claro, #d1c4e9);
     }
+
     #fechamento {
       background-color: #410261;
       padding: 15px 20px;
@@ -111,20 +130,73 @@
       display: none;
       text-align: left;
     }
+
     footer {
       text-align: center;
       padding: 15px 0;
       color: #d1c4e9;
+      margin-left: 200px;
     }
+
+    /* ---------- RESPONSIVIDADE ---------- */
+    @media (max-width: 768px) {
+      header {
+        margin-left: 0; /* Remove o recuo lateral no celular */
+        text-align: center;
+      }
+      nav.sidebar {
+        position: relative;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+      }
+
+      .nome{
+        display: none;
+      }
+
+      nav.sidebar h1 {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      nav.sidebar a {
+        margin: 5px;
+        font-size: 0.9rem;
+      }
+
+      main {
+        margin-left: 0;
+        padding: 20px 10px;
+      }
+
+      .resultado {
+        max-width: 100%;
+        padding: 20px;
+      }
+
+      button {
+        font-size: 1rem;
+      }
+
+      footer {
+        margin-left: 0;
+        background-color: #2a003f;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <h1>Fechamento de Caixa - Explosão Açaí</h1>
+    <h1 class="titulo">Fechamento de Caixa - Explosão Açaí</h1>
   </header>
 
   <nav class="sidebar">
-    <h1>Explosão Açaí</h1>
+    <h1 class="nome">Explosão Açaí</h1>
     <a href="./abertura.html">Abertura de Caixa</a>
     <a href="../index.html">Lançar Pedidos</a>
     <a href="./histórico.html">Histórico de Pedidos</a>
@@ -237,10 +309,10 @@ historicoPedidos.forEach(pedido => {
     });
     localStorage.setItem('historicoFechamentos', JSON.stringify(historicoFechamentos));
 
-    // 👉 Salvar histórico de pedidos
-    const historicoComandas = JSON.parse(localStorage.getItem('historicoComandas')) || [];
-    historicoComandas.push(...historicoPedidos);
-    localStorage.setItem('historicoComandas', JSON.stringify(historicoComandas));
+    // 👉 Salvar histórico de pedidos agrupados por dia
+    const dataHoje = new Date().toISOString().split('T')[0]; // formato "2025-07-03"
+    localStorage.setItem(`historicoFechamento-${dataHoje}`, JSON.stringify(comandasObj));
+
 
     const fechamento =
 `RESUMO DO CAIXA

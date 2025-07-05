@@ -47,12 +47,13 @@
 
         <label>Formas de Pagamento:</label>
         <div id="pagamentosContainer"></div>
-        <button type="button" onclick="adicionarPagamento()">+ Adicionar Forma de Pagamento</button>
+        <button type="button" id="btnAdicionarPagamento" onclick="adicionarPagamento()">+ Adicionar Forma de Pagamento</button>
 
         <label for="descricao">Descrição (opcional):</label>
-        <textarea id="descricao" rows="3" placeholder="Descrição:"></textarea>
+        <textarea id="descricao" maxlength="100" rows="3" placeholder="Descrição:"></textarea>
 
-        <button onclick="calcularTotal()">Calcular Total</button>
+
+        <button onclick="calcularTotal()">Lançar Pedido</button>
       </div>
 
       <div class="resultado">
@@ -61,6 +62,8 @@
         <div id="comanda" class="comanda" style="display:none;"></div>
         <button id="imprimirComanda" style="display:none;" onclick="imprimirComanda()">Imprimir Comanda</button>
       </div>
+      <button type="button" onclick="resetarTudo()">Apagar Tudo</button>
+
     </main>
 
     <footer>

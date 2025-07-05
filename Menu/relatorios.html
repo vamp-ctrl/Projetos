@@ -5,38 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Relatórios de Fechamento - Explosão Açaí</title>
   <style>
-    body {
-      background-color: #1a1a2e;
-      color: #d1c4e9;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0 20px;
+    :root {
+      --roxo-escuro: #1a1a2e;
+      --roxo-medio: #2a003f;
+      --roxo-claro: #d1c4e9;
+      --roxo-hover: #5e35b1;
     }
 
-    nav.sidebar {
-      width: 240px;
-      background-color: #2a003f;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--roxo-escuro);
+      color: var(--roxo-claro);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar para telas grandes */
+    .sidebar {
+      background-color: var(--roxo-medio);
       padding: 20px;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
+      width: 220px;
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
 
-    nav.sidebar h1 {
+    .sidebar h1 {
       font-size: 1.5rem;
       margin-bottom: 20px;
       background-color: #3a0055;
       border-radius: 50px;
-      color: var(--roxo-claro, #d1c4e9);
+      padding: 10px;
+      text-align: center;
+      color: var(--roxo-claro);
     }
 
-    nav.sidebar a {
+    .sidebar a {
       text-decoration: none;
-      color: var(--roxo-claro, #d1c4e9);
+      color: var(--roxo-claro);
       font-size: 1rem;
       padding: 10px;
       border: 1px solid #340b49;
@@ -44,45 +56,115 @@
       transition: background 0.3s;
     }
 
-    nav.sidebar a:hover {
-      background-color: #3a0055;
+    .sidebar a:hover {
+      background-color: #62237f;
+    }
+
+    /* Menu para celular */
+    .topnav {
+      display: none;
     }
 
     main {
-      margin-left: 260px;
+      flex: 1;
       padding: 20px;
     }
 
     h2 {
       color: #b39ddb;
       text-align: center;
+      margin-bottom: 20px;
     }
 
     .relatorio {
-      background-color: #2a003f;
+      background-color: var(--roxo-medio);
       padding: 20px;
       border-radius: 10px;
       margin-bottom: 20px;
       box-shadow: 0 0 10px #3a0055;
       white-space: pre-wrap;
       font-family: monospace;
-      color: #d1c4e9;
+      color: var(--roxo-claro);
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      color: #d1c4e9;
+      color: var(--roxo-claro);   
+      display: none;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .topnav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--roxo-medio);
+        padding: 15px 10px;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .topnav h5 {
+        font-size: 1.2rem;
+      }
+
+      .topnav .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .topnav .nav-links a {
+        text-decoration: none;
+        color: var(--roxo-claro);
+        font-size: 0.95rem;
+        padding: 10px 12px;
+        border: 1px solid #340b49;
+        border-radius: 5px;
+        transition: background 0.3s;
+      }
+
+      .topnav .nav-links a:hover {
+        background-color: #3a0055;
+      }
+
+      footer {
+        display: block;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Sidebar desktop -->
   <nav class="sidebar">
     <h1>Explosão Açaí</h1>
     <a href="./abertura.html">Abertura de Caixa</a>
     <a href="../index.html">Lançar Pedidos</a>
     <a href="./histórico.html">Histórico de Pedidos</a>
     <a href="./fechamento.html">Fechamento de Caixa</a>
+  </nav>
+
+  <!-- Topnav mobile -->
+  <nav class="topnav">
+    <h5>Explosão Açaí</h5>
+    <div class="nav-links">
+      <a href="./abertura.html">Abertura de Caixa</a>
+      <a href="../index.html">Lançar Pedidos</a>
+      <a href="./histórico.html">Histórico de Pedidos</a>
+      <a href="./fechamento.html">Fechamento</a>
+    </div>
   </nav>
 
   <main>
@@ -102,8 +184,7 @@
       container.innerHTML = '';
 
       if (relatorios.length === 0) {
-        container.textContent = 'Nenhum fechamento registrado.' + 
-          '\n\nUse o menu lateral para registrar um fechamento.';
+        container.textContent = 'Nenhum fechamento registrado.\n\nUse o menu para registrar um.';
         return;
       }
 
@@ -132,7 +213,6 @@ Lucro:           R$ ${item.lucro}
       });
     }
 
-    // Carrega os relatórios ao iniciar
     carregarRelatorios();
   </script>
 </body>

@@ -1,11 +1,3 @@
-/* ---------- MENU HAMBÚRGUER ---------- */
-document
-  .getElementById('menuToggle')
-  ?.addEventListener('click', () =>
-    document.getElementById('sidebar').classList.toggle('active')
-  );
-
-/* ---------- VARIÁVEIS / LOCALSTORAGE ---------- */
 let pedidoId   = +localStorage.getItem('pedidoId')   || 1;
 const comandas = JSON.parse(localStorage.getItem('comandas') || '{}');
 
@@ -13,7 +5,6 @@ let caixaAberto   = localStorage.getItem('caixaAberto') === 'true';
 let valorAbertura = +localStorage.getItem('valorAbertura') || 0;
 let totalPedidos  = +localStorage.getItem('totalPedidos')  || 0;
 
-/* ---------- FUNÇÃO DE PERSISTÊNCIA ---------- */
 function salvarDados() {
   localStorage.setItem('pedidoId',      pedidoId.toString());
   localStorage.setItem('comandas',      JSON.stringify(comandas));
@@ -74,7 +65,6 @@ function adicionarPagamento() {
   const valorEntregueContainer = div.querySelector('.valorEntregueContainer');
   const valorEntregueInput = div.querySelector('.valorEntregue');
 
-  // Mostrar/ocultar campos conforme forma de pagamento
   formaPagamentoSelect.addEventListener('change', function () {
     if (this.value === 'Cartão') {
       tipoCartaoSelect.style.display = 'inline-block';
@@ -97,7 +87,6 @@ function adicionarPagamento() {
     }
   });
 
-  // Mostrar campo valor entregue se desejar troco = sim
   desejaTrocoSelect.addEventListener('change', function () {
     if (this.value === 'sim') {
       valorEntregueContainer.style.display = 'block';
@@ -107,7 +96,6 @@ function adicionarPagamento() {
     }
   });
 
-  // Remover pagamento e reativar botão se necessário
   div.querySelector('.removerPagamento').addEventListener('click', function () {
     div.remove();
     if (container.querySelectorAll('.pagamentoItem').length < 3) {
@@ -115,42 +103,10 @@ function adicionarPagamento() {
     }
   });
 
-  // Desativa o botão se chegou no máximo
   if (container.querySelectorAll('.pagamentoItem').length >= 3) {
     addButton.disabled = true;
   }
 }
-
-
-
-
-/* ---------- MOSTRAR CAMPOS DINÂMICOS ---------- */
-document.getElementById('pagamento')?.addEventListener('change', function () {
-  const forma = this.value;
-  const trocoCtn = document.getElementById('trocoContainer');
-  const valorEntregueCtn = document.getElementById('valorEntregueContainer');
-  const tipoCartaoCtn = document.getElementById('tipoCartaoContainer');
-  const resetMoneyFields = () => {
-    document.getElementById('desejaTroco').value = '';
-    document.getElementById('valorEntregue').value = '';
-    valorEntregueCtn.style.display = 'none';
-  };
-
-  if (forma === 'Dinheiro') {
-    trocoCtn.style.display = 'block';
-    tipoCartaoCtn.style.display = 'none';
-    document.getElementById('tipoCartao').value = '';
-  } else if (forma === 'Cartão') {
-    trocoCtn.style.display = 'none';
-    resetMoneyFields();
-    tipoCartaoCtn.style.display = 'block';
-  } else { // Pix
-    trocoCtn.style.display = 'none';
-    tipoCartaoCtn.style.display = 'none';
-    document.getElementById('tipoCartao').value = '';
-    resetMoneyFields();
-  }
-});
 
 function verificarTroco() {
   const deseja = document.getElementById('desejaTroco').value;
@@ -167,7 +123,6 @@ document.getElementById('tipoPedido')?.addEventListener('change', function () {
   document.getElementById('campoProduto').style.display = (tipo === 'produto' || tipo === 'ambos') ? 'block' : 'none';
 });
 
-/* ---------- CÁLCULO TOTAL + COMANDA ---------- */
 window.calcularTotal = function () {
   if (!caixaAberto) {
     document.getElementById('resumo').innerHTML = '<span style="color:red;">O caixa está fechado.</span>';
@@ -216,7 +171,7 @@ window.calcularTotal = function () {
 
     if (forma === 'Dinheiro' && desejaTroco === 'sim') {
       if (valorEntregue < valor) {
-        document.getElementById('resumo').textContent = 'Valor entregue insuficiente para o pagamento em dinheiro.';
+        document.getElementById('resumo').textContent = 'Valor entregue, insuficiente para o pagamento em dinheiro.';
         return;
       }
       trocoTotal += (valorEntregue - valor);
@@ -274,7 +229,6 @@ window.calcularTotal = function () {
   document.getElementById('comanda').style.display = 'block';
   document.getElementById('imprimirComanda').style.display = 'inline-block';
 
-  // Salvar o pedido com array de pagamentos detalhados
   comandas[`pedido${pedidoId}`] = {
     id: pedidoId,
     vendedor: vendedor,
@@ -296,14 +250,35 @@ window.calcularTotal = function () {
   totalPedidos += total;
   pedidoId++;
   salvarDados();
+  limparCampos();
+
 };
 
-
-
-/* ---------- IMPRESSÃO ---------- */
 window.imprimirComanda = function () {
   const texto = document.getElementById('comanda').innerHTML;
   const win = window.open('', '', 'width=400,height=600');
   win.document.write(`<div style="font-family:monospace; font-size:16px;">${texto}</div><script>window.print();<\/script>`);
   win.document.close();
 };
+
+function resetarTudo() {
+  if (confirm("Tem certeza que deseja apagar todos os dados? Isso não poderá ser desfeito!")) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+function limparCampos() {
+  document.getElementById('valorAcai').value = '';
+  document.getElementById('valorProduto').value = '';
+  document.getElementById('vendedorInput').value = '';
+  document.getElementById('descricao').value = '';
+  document.getElementById('tipoPedido').value = '';
+  const pagamentosContainer = document.getElementById('pagamentosContainer');
+  pagamentosContainer.innerHTML = '';
+  document.getElementById('btnAdicionarPagamento').disabled = false;
+  document.getElementById('imprimirComanda').style.display = 'none';
+  document.getElementById('campoAcai').style.display = 'none';
+  document.getElementById('campoProduto').style.display = 'none';
+}
+
