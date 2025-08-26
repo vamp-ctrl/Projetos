@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Histórico de Pedidos - Explosão Açaí</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="carregarHistorico()">
+    <!-- Sidebar para desktop -->
+    <nav class="sidebar">
+      <h3>Explosão Açaí</h3>
+      <a href="../Abertura/abertura.html">Abertura de Caixa</a>
+      <a href="/index.html">Lançar Pedidos</a>
+      <a href="../Comanda/comanda.html">Lançar Comanda</a>
+      <a href="../Fechamento/fechamento.html">Fechamento de Caixa</a>
+      <a href="../Relatórios/relatorios.html">Relatórios</a>
+    </nav>
+
+    <!-- Topnav para celular -->
+    <nav class="topnav">
+      <h5>Explosão Açaí</h5>
+      <div class="nav-links">
+        <a href="../Abertura/abertura.html">Abertura de Caixa</a>
+        <a href="/index.html">Lançar Pedidos</a>
+        <a href="../Comanda/comanda.html">Lançar Comanda</a>
+        <a href="../Fechamento/fechamento.html">Fechamento de Caixa</a>
+        <a href="../Relatórios/relatorios.html">Relatórios</a>
+      </div>
+    </nav>
+
+    <main>
+      <h1>Histórico de Pedidos</h1>
+      <ul id="historicoPedidos"></ul>
+      <button id="btnLimpar" onclick="limparHistorico()">
+        Limpar Histórico
+      </button>
+    </main>
+
+    <script src="histórico.js">
+    </script>
+  </body>
+</html>

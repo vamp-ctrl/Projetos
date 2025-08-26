@@ -9,10 +9,11 @@
   <body>
     <nav class="sidebar" id="sidebar">
       <h1>Explosão Açaí</h1>
-      <a href="./Menu/abertura.html">Abertura de Caixa</a>
-      <a href="./Menu/histórico.html">Histórico de Pedidos</a>
-      <a href="./Menu/fechamento.html">Fechamento de Caixa</a>
-      <a href="./Menu/relatorios.html">Relatórios</a>
+      <a href="./Menu/Abertura/abertura.html">Abertura de Caixa</a>
+      <a href="./Menu/Comanda/comanda.html">Lançar Comanda</a>
+      <a href="./Menu/Histórico/histórico.html">Histórico de Pedidos</a>
+      <a href="./Menu/Fechamento/fechamento.html">Fechamento de Caixa</a>
+      <a href="./Menu/Relatórios/relatorios.html">Relatórios</a>
     </nav>
 
     <div class="main-content">
@@ -39,14 +40,22 @@
             <option value="ambos">Ambos</option>
           </select>
 
-          <div id="campoAcai" style="display: none">
-            <label for="valorAcai">Valor do Açaí (R$):</label>
-            <input type="number" id="valorAcai" step="0.01" />
+          <!-- Açaí -->
+          <div id="acaiContainer" style="display:none; margin-top:8px;">
+            <label>Açaís:</label>
+            <div id="listaAcai"></div>
+            <button type="button" onclick="adicionarItem('acai')">
+              + Adicionar Açaí
+            </button>
           </div>
 
-          <div id="campoProduto" style="display: none">
-            <label for="valorProduto">Valor do Produto (R$):</label>
-            <input type="number" id="valorProduto" step="0.01" />
+          <!-- Produto -->
+          <div id="produtoContainer" style="display:none; margin-top:8px;">
+            <label>Produtos:</label>
+            <div id="listaProduto"></div>
+            <button type="button" onclick="adicionarItem('produto')">
+              + Adicionar Produto
+            </button>
           </div>
 
           <label>Formas de Pagamento:</label>
@@ -89,8 +98,6 @@
         <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
       </footer>
     </div>
-
     <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
   </body>
 </html>

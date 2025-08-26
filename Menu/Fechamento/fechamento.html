@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fechamento de Caixa - Explosão Açaí</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 class="titulo">Fechamento de Caixa - Explosão Açaí</h1>
+    </header>
+
+    <nav class="sidebar">
+      <h1 class="nome">Explosão Açaí</h1>
+      <a href="../Abertura/abertura.html">Abertura de Caixa</a>
+      <a href="/index.html">Lançar Pedidos</a>
+      <a href="../Comanda/comanda.html">Lançar Comanda</a>
+      <a href="../Histórico/histórico.html">Histórico de Pedidos</a>
+      <a href="../Relatórios/relatorios.html">Relatórios</a>
+    </nav>
+
+    <main>
+      <div class="resultado">
+        <h2>Fechamento de Caixa</h2>
+        <label for="comp1">Computador 1 (R$):</label>
+        <input
+          type="number"
+          id="comp1"
+          step="0.01"
+          placeholder="Valor do Comp. 1"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
+
+        <label for="comp2">Computador 2 (R$):</label>
+        <input
+          type="number"
+          id="comp2"
+          step="0.01"
+          placeholder="Valor do Comp. 2"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
+
+        <label for="ifood">iFood (R$):</label>
+        <input
+          type="number"
+          id="ifood"
+          step="0.01"
+          placeholder="Valor do iFood"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
+
+        <label for="aipede">AiPede (R$):</label>
+        <input
+          type="number"
+          id="aipede"
+          step="0.01"
+          placeholder="Valor do AiPede"
+          style="
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+          "
+        />
+
+        <button id="btnFechar" onclick="fecharCaixa()">Fechar Caixa</button>
+        <div id="fechamento"></div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Explosão Açaí. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- fechamento.html - atualizado -->
+    <!-- (somente o script final está modificado) -->
+    <script src="fechamento.js">
+    </script>
+  </body>
+</html>

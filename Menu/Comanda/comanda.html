@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandas - Explosão Açaí</title>
+  <link rel="stylesheet" href="/Menu/Comanda/comanda.css"> <!-- usa o estilo principal -->
+  <link rel="stylesheet" href="/style.css"> <!-- ajustes só para a comanda -->
+</head>
+<body>
+  <!-- MENU LATERAL -->
+  <aside class="sidebar">
+    <h1>Explosão Açaí</h1>
+    <a href="/index.html">Lançar Pedido</a>
+    <a href="../Abertura/abertura.html">Abertura de Caixa</a>
+    <a href="../Fechamento/fechamento.html">Fechamento de Caixa</a>
+    <a href="../Histórico/histórico.html">Histórico de Pedidos</a>
+    <a href="../Relatórios/relatorios.html">Relatórios</a>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <div class="main-content">
+    <header>
+      <h1>Gerenciar Comandas</h1>
+    </header>
+
+    <main>
+      <!-- Abrir nova comanda -->
+      <section class="form-section">
+        <h2>Abrir Nova Comanda</h2>
+        <input type="text" id="nomeComanda" placeholder="Nome ou número da comanda">
+        <button onclick="abrirComanda()">Abrir</button>
+      </section>
+
+      <!-- Lista de comandas abertas -->
+      <section class="resultado">
+        <h2>Comandas Abertas</h2>
+        <ul id="comandasAbertas" class="comanda-lista"></ul>
+      </section>
+
+      <!-- Detalhes da comanda -->
+      <section id="detalhesComanda" class="resultado" style="display:none;">
+        <h2 id="tituloComanda"></h2>
+
+        <div class="acoes">
+          <button onclick="adicionarItem('Açaí')">+ Açaí</button>
+          <button onclick="adicionarItem('Produto')">+ Produto</button>
+        </div>
+
+        <ul id="itensComanda" class="comanda"></ul>
+        <p><strong>Total:</strong> R$ <span id="totalComanda">0.00</span></p>
+
+        <button onclick="fecharComanda()">Fechar Comanda</button>
+        <button onclick="cancelarComanda()">Cancelar Comanda</button>
+      </section>
+
+      <!-- Modal de Pagamento -->
+        <div id="modalPagamento" class="modal hidden">
+        <div class="modal-content">
+            <h2>Finalizar Pagamento</h2>
+            <p>Selecione a forma de pagamento:</p>
+
+            <select id="formaPagamento">
+            <option value="">-- Escolha --</option>
+            <option value="Pix">Pix</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão">Cartão</option>
+            </select>
+
+            <div class="botoes">
+            <button onclick="confirmarPagamento()">Confirmar</button>
+            <button onclick="fecharModal()">Cancelar</button>
+            </div>
+        </div>
+        </div>
+
+    </main>
+
+    <footer>
+      <p>© 2025 Explosão Açaí - Sistema de Gestão</p>
+    </footer>
+  </div>
+
+  <script src="comanda.js"></script>
+</body>
+</html>
