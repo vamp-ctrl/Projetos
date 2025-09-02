@@ -24,9 +24,7 @@ function abrirComanda() {
   }
 
   const nome = $("nomeComanda").value.trim();
-  if (!nome) {
-    return alert("Digite um nome ou número para a comanda!");
-  }
+  if (!nome) return alert("Digite um nome ou número para a comanda!");
 
   const nova = { id: gerarId(), nome, itens: [], total: 0 };
   comandas.push(nova);
@@ -60,10 +58,10 @@ function selecionarComanda(id) {
 
 // ====== Adicionar item ======
 function adicionarItem(tipo) {
+  if (!comandaSelecionada) return alert("Selecione uma comanda!");
+
   const valor = parseFloat(prompt(`Digite o valor do ${tipo} (R$):`));
-  if (isNaN(valor) || valor <= 0) {
-    return alert("Valor inválido!");
-  }
+  if (isNaN(valor) || valor <= 0) return alert("Valor inválido!");
 
   comandaSelecionada.itens.push({ tipo, valor });
   comandaSelecionada.total += valor;
@@ -99,9 +97,9 @@ function removerItem(i) {
 
 // ====== Pagamento ======
 function fecharComanda() {
-  if (comandaSelecionada.itens.length === 0) {
-    return alert("A comanda está vazia!");
-  }
+  if (!comandaSelecionada) return alert("Selecione uma comanda!");
+  if (comandaSelecionada.itens.length === 0) return alert("A comanda está vazia!");
+
   pagamentos = [];
   $("valorTotal").textContent = comandaSelecionada.total.toFixed(2);
   $("listaPagamentos").innerHTML = "";
@@ -117,7 +115,6 @@ $("formaPagamento").addEventListener("change", () => {
   const forma = $("formaPagamento").value;
   $("campoTroco").style.display = forma === "Dinheiro" ? "block" : "none";
 
-  // Se for dinheiro, sugere automaticamente o valor restante da comanda
   const totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
   const restante = comandaSelecionada.total - totalPago;
   $("valorPagamento").value = forma === "Dinheiro" ? restante.toFixed(2) : "";
@@ -135,28 +132,21 @@ $("valorRecebido").addEventListener("input", () => {
       : "0.00";
 });
 
+// Adicionar pagamento
 function adicionarPagamento() {
   const forma = $("formaPagamento").value;
   let valor = parseFloat($("valorPagamento").value);
-
-  if (!forma || isNaN(valor) || valor <= 0) {
-    return alert("Preencha corretamente a forma e o valor!");
-  }
+  if (!forma || isNaN(valor) || valor <= 0) return alert("Preencha corretamente a forma e o valor!");
 
   const totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
   const restante = comandaSelecionada.total - totalPago;
-
-  if (valor > restante) {
-    valor = restante; // evita pagar mais que o necessário
-  }
+  if (valor > restante) valor = restante;
 
   const pagamento = { forma, valor };
 
   if (forma === "Dinheiro") {
     const recebido = parseFloat($("valorRecebido").value);
-    if (isNaN(recebido) || recebido < valor) {
-      return alert("Valor recebido inválido!");
-    }
+    if (isNaN(recebido) || recebido < valor) return alert("Valor recebido inválido!");
     pagamento.recebido = recebido;
     pagamento.troco = recebido - valor;
   }
@@ -166,16 +156,10 @@ function adicionarPagamento() {
   const li = document.createElement("li");
   li.textContent =
     forma === "Dinheiro"
-      ? `${forma} - R$ ${valor.toFixed(
-          2
-        )} (Recebido: R$ ${pagamento.recebido.toFixed(
-          2
-        )}, Troco: R$ ${pagamento.troco.toFixed(2)})`
+      ? `${forma} - R$ ${valor.toFixed(2)} (Recebido: R$ ${pagamento.recebido.toFixed(2)}, Troco: R$ ${pagamento.troco.toFixed(2)})`
       : `${forma} - R$ ${valor.toFixed(2)}`;
-
   $("listaPagamentos").appendChild(li);
 
-  // Limpa campos
   $("valorPagamento").value = "";
   $("valorRecebido").value = "";
   $("troco").textContent = "0.00";
@@ -183,31 +167,24 @@ function adicionarPagamento() {
   $("campoTroco").style.display = "none";
 }
 
+// Finalizar pagamento
 function finalizarPagamento() {
-  let totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
+  if (!comandaSelecionada) return;
 
-  // Pega o que ainda está nos campos, se o usuário não clicou em "Adicionar Pagamento"
+  let totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
   const valorCampo = parseFloat($("valorPagamento").value);
   const formaCampo = $("formaPagamento").value;
   const recebidoCampo = parseFloat($("valorRecebido").value);
 
   if (formaCampo && !isNaN(valorCampo) && valorCampo > 0) {
     if (formaCampo === "Dinheiro") {
-      if (isNaN(recebidoCampo) || recebidoCampo < valorCampo) {
-        return alert("Valor recebido inválido!");
-      }
+      if (isNaN(recebidoCampo) || recebidoCampo < valorCampo) return alert("Valor recebido inválido!");
       totalPago += valorCampo;
-    } else {
-      totalPago += valorCampo;
-    }
+    } else totalPago += valorCampo;
   }
 
-  // 🔑 Checa o total de pagamentos em relação ao valor da comanda
-  if (totalPago < comandaSelecionada.total) {
-    return alert("O pagamento ainda não cobre o valor total!");
-  }
+  if (totalPago < comandaSelecionada.total) return alert("O pagamento ainda não cobre o valor total!");
 
-  // Monta o pedido para histórico
   const novoPedido = {
     id: comandaSelecionada.id,
     vendedor: localStorage.getItem("usuarioLogado") || "Desconhecido",
@@ -217,29 +194,23 @@ function finalizarPagamento() {
     dataHora: new Date().toLocaleString(),
   };
 
-  const chaveHistorico =
-    "historicoFechamento-" + new Date().toLocaleDateString();
-  const historicoDoDia = JSON.parse(
-    localStorage.getItem(chaveHistorico) || "[]"
-  );
-
+  const chaveHistorico = "historicoFechamento-" + new Date().toISOString().split("T")[0];
+  const historicoDoDia = JSON.parse(localStorage.getItem(chaveHistorico) || "[]");
   historicoDoDia.push(novoPedido);
   localStorage.setItem(chaveHistorico, JSON.stringify(historicoDoDia));
 
   alert("Comanda fechada e registrada no histórico!");
   fecharModal();
   removerComanda();
-  window.location.href = "../Histórico/histórico.html";
+  window.location.href = "Menu/Histórico/histórico.html";
 }
 
-// ====== Cancelar comanda ======
+// Cancelar comanda
 function cancelarComanda() {
-  if (confirm("Cancelar essa comanda?")) {
-    removerComanda();
-  }
+  if (confirm("Cancelar essa comanda?")) removerComanda();
 }
 
-// ====== Remover comanda ======
+// Remover comanda
 function removerComanda() {
   comandas = comandas.filter((c) => c.id !== comandaSelecionada.id);
   salvar();
@@ -249,15 +220,15 @@ function removerComanda() {
 }
 
 // ====== Eventos ======
-$("btnAbrir").addEventListener("click", abrirComanda);
-$("btnAddAcai").addEventListener("click", () => adicionarItem("Açaí"));
-$("btnAddProduto").addEventListener("click", () => adicionarItem("Produto"));
-$("btnFechar").addEventListener("click", fecharComanda);
-$("btnCancelar").addEventListener("click", cancelarComanda);
+document.addEventListener("DOMContentLoaded", () => {
+  $("btnAbrir").addEventListener("click", abrirComanda);
+  $("btnAddAcai").addEventListener("click", () => adicionarItem("Açaí"));
+  $("btnAddProduto").addEventListener("click", () => adicionarItem("Produto"));
+  $("btnFecharComanda").addEventListener("click", fecharComanda);
+  $("btnCancelar").addEventListener("click", cancelarComanda);
+  $("btnAddPagamento").addEventListener("click", adicionarPagamento);
+  $("btnFinalizarPagamento").addEventListener("click", finalizarPagamento);
+  $("btnCancelarPagamento").addEventListener("click", fecharModal);
 
-$("btnAddPagamento").addEventListener("click", adicionarPagamento);
-$("btnFinalizarPagamento").addEventListener("click", finalizarPagamento);
-$("btnCancelarPagamento").addEventListener("click", fecharModal);
-
-// ====== Inicializa lista ======
-listarComandas();
+  listarComandas();
+});

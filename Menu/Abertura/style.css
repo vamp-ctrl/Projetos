@@ -3,6 +3,7 @@
   --roxo-medio: #4b007d;
   --roxo-input: #5e1b8a;
   --roxo-claro: #f3e6ff;
+  --roxo-hover: #8e2bb7;
   --branco: #ffffff;
   --cinza: #ddd;
 }
@@ -15,7 +16,6 @@
 
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
   display: flex;
   background: #12001c;
   color: var(--roxo-claro);
@@ -35,12 +35,13 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .sidebar h2 {
   font-size: 1.3rem;
   color: var(--branco);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .sidebar a {
@@ -49,31 +50,43 @@ body {
   color: var(--roxo-claro);
   padding: 10px;
   border-radius: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   transition: 0.3s;
   background: var(--roxo-medio);
 }
 
 .sidebar a:hover {
-  background: #6a0dad;
+  background: var(--roxo-hover);
 }
 
+/* ===== Topnav para mobile ===== */
 .topnav {
   display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: var(--roxo-medio);
 }
 
-header,
-footer {
-  color: var(--roxo-claro);
-  padding: 10px;
+.topnav h5 {
+  color: var(--branco);
   text-align: center;
 }
 
-.topo {
-  font-size: 24px;
-  font-weight: bold;
+.topnav a {
+  text-decoration: none;
+  color: var(--roxo-claro);
+  background: var(--roxo-medio);
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
 }
 
+.topnav a:hover {
+  background: var(--roxo-hover);
+}
+
+/* ===== Main ===== */
 main {
   flex: 1;
   display: flex;
@@ -104,8 +117,10 @@ input[type="number"] {
   padding: 10px;
   font-size: 1.1rem;
   border-radius: 6px;
-  border: none;
+  border: 1px solid #340b49;
   margin-bottom: 20px;
+  background-color: var(--roxo-input);
+  color: var(--roxo-claro);
 }
 
 button {
@@ -128,13 +143,6 @@ button:hover:not(:disabled) {
   background-color: var(--roxo-hover);
 }
 
-.inputValor {
-  background-color: #3c2563;
-  color: var(--roxo-claro);
-  border: 1px solid #340b49;
-  font-size: 1.1rem;
-}
-
 #mensagem {
   margin-top: 15px;
   font-weight: bold;
@@ -142,24 +150,14 @@ button:hover:not(:disabled) {
   color: #a5d6a7;
 }
 
+/* ===== Footer ===== */
 footer {
   text-align: center;
   padding: 10px;
-  background-color: transparent;
   font-size: 0.9rem;
 }
 
-/* RESPONSIVO */
-@media (max-width: 1024px) {
-  .form-section {
-    width: 100%;
-  }
-
-  .sidebar {
-    width: 200px;
-  }
-}
-
+/* ===== Responsivo ===== */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -170,42 +168,10 @@ footer {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 10px;
     background-color: var(--roxo-medio);
-    gap: 10px;
-  }
-
-  .sidebar h2 {
-    width: 100%;
-    text-align: center;
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-  }
-
-  .sidebar a {
-    margin: 5px;
-    font-size: 0.9rem;
-    padding: 10px;
-    border-radius: 5px;
   }
 
   .topnav {
-    display: none;
-  }
-
-  .form-section {
-    padding: 25px 20px;
-    width: 100%;
-  }
-
-  h1.titulo {
-    font-size: 1.4rem;
-    text-align: center;
-    padding: 10px;
-  }
-
-  footer {
-    background-color: var(--roxo-medio);
-    padding: 10px;
+    display: flex;
   }
 }

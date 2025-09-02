@@ -28,7 +28,7 @@ function fecharCaixa() {
   let totalVendas = 0;
 
   historicoPedidos.forEach((pedido) => {
-    if (!pedido.pagamentos || !pedido.total) return;
+    if (!pedido.pagamentos || pedido.total == null) return;
 
     pedido.pagamentos.forEach((p) => {
       const forma = p.forma?.toLowerCase();
@@ -54,16 +54,16 @@ function fecharCaixa() {
   const totalFinal =
     valorAbertura + totalVendas + comp1 + comp2 + ifood + aipede;
   const lucro = totalFinal - valorAbertura;
+
   if (totalFinal < 0) {
-    alert(
-      "O total final não pode ser negativo. Verifique os valores inseridos."
-    );
+    alert("O total final não pode ser negativo.");
     return;
   }
 
   // Salvar histórico de fechamento
-  const historicoFechamentos =
-    JSON.parse(localStorage.getItem("historicoFechamentos")) || [];
+  const historicoFechamentos = JSON.parse(
+    localStorage.getItem("historicoFechamentos") || "[]"
+  );
   historicoFechamentos.push({
     dataHora: new Date().toLocaleString(),
     abertura: valorAbertura.toFixed(2),
@@ -83,35 +83,30 @@ function fecharCaixa() {
     JSON.stringify(historicoFechamentos)
   );
 
-  // 👉 Salvar histórico de pedidos agrupados por dia
-  const dataHoje = new Date().toISOString().split("T")[0]; // formato "2025-07-03"
+  // Salvar histórico de pedidos por dia
+  const dataHoje = new Date().toISOString().split("T")[0];
   localStorage.setItem(
     `historicoFechamento-${dataHoje}`,
     JSON.stringify(comandasObj)
   );
 
+  // Mostrar resumo
   const fechamento = `RESUMO DO CAIXA
 ----------------------------
-
 Abertura:         R$ ${valorAbertura.toFixed(2)}
 Vendas:           R$ ${totalVendas.toFixed(2)}
 Comp. 1:          R$ ${comp1.toFixed(2)}
 Comp. 2:          R$ ${comp2.toFixed(2)}
 iFood:            R$ ${ifood.toFixed(2)}
 AiPede:           R$ ${aipede.toFixed(2)}
-
 ----------------------------
-
 Recebido por forma de pagamento:
   Dinheiro:       R$ ${totalDinheiro.toFixed(2)}
   Pix:            R$ ${totalPix.toFixed(2)}
   Cartão:         R$ ${totalCartao.toFixed(2)}
-
 ----------------------------
-
 Lucro:            R$ ${lucro.toFixed(2)}
 Total Final:      R$ ${totalFinal.toFixed(2)}
-
 ----------------------------
 Fechamento em: ${new Date().toLocaleString()}`;
 
@@ -124,20 +119,17 @@ Fechamento em: ${new Date().toLocaleString()}`;
   localStorage.removeItem("valorAbertura");
   localStorage.removeItem("totalPedidos");
   localStorage.removeItem("comandas");
-  localStorage.removeItem("pedidoId", "1");
+  localStorage.removeItem("pedidoId");
   localStorage.removeItem("comandasAbertas");
 }
 
 window.onload = () => {
   const caixaAberto = localStorage.getItem("caixaAberto");
   if (caixaAberto !== "true") {
-    document.getElementById("fechamento").textContent =
+    const fechamentoDiv = document.getElementById("fechamento");
+    fechamentoDiv.textContent =
       "Caixa não está aberto. Abra o caixa antes de fechar.";
-    document.getElementById("fechamento").style.display = "block";
+    fechamentoDiv.style.display = "block";
     document.getElementById("btnFechar").disabled = true;
-    document.getElementById("comp1").value = "";
-    document.getElementById("comp2").value = "";
-    document.getElementById("ifood").value = "";
-    document.getElementById("aipede").value = "";
   }
 };

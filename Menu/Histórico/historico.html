@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Histórico de Pedidos - Explosão Açaí</title>
-    <link rel="icon" type="image/png" href="/icon.png"/>
-    <link rel="stylesheet" href="style.css" />
-    <base href="/Projetos/">
-  </head>
-  <body onload="carregarHistorico()">
-    <!-- Sidebar para desktop -->
-    <nav class="sidebar">
-      <h3>Explosão Açaí</h3>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Histórico de Pedidos - Explosão Açaí</title>
+  <link rel="icon" type="image/png" href="/icon.png"/>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Base apenas para links -->
+  <base href="/Projetos/">
+</head>
+<body onload="carregarHistorico()">
+
+  <!-- Sidebar Desktop -->
+  <nav class="sidebar">
+    <h3>Explosão Açaí</h3>
+    <a href="Menu/Abertura/abertura.html">Abertura de Caixa</a>
+    <a href="index.html">Lançar Pedidos</a>
+    <a href="Menu/Comanda/comanda.html">Lançar Comanda</a>
+    <a href="Menu/Fechamento/fechamento.html">Fechamento de Caixa</a>
+    <a href="Menu/Relatorios/relatorios.html">Relatórios</a>
+  </nav>
+
+  <!-- Topnav Mobile -->
+  <nav class="topnav">
+    <h5>Explosão Açaí</h5>
+    <div class="nav-links">
       <a href="Menu/Abertura/abertura.html">Abertura de Caixa</a>
       <a href="index.html">Lançar Pedidos</a>
       <a href="Menu/Comanda/comanda.html">Lançar Comanda</a>
       <a href="Menu/Fechamento/fechamento.html">Fechamento de Caixa</a>
-      <a href="Menu/Relatórios/relatorios.html">Relatórios</a>
-    </nav>
+      <a href="Menu/Relatorios/relatorios.html">Relatórios</a>
+    </div>
+  </nav>
 
-    <!-- Topnav para celular -->
-    <nav class="topnav">
-      <h5>Explosão Açaí</h5>
-      <div class="nav-links">
-        <a href="Menu/Abertura/abertura.html">Abertura de Caixa</a>
-        <a href="index.html">Lançar Pedidos</a>
-        <a href="Menu/Comanda/comanda.html">Lançar Comanda</a>
-        <a href="Menu/Fechamento/fechamento.html">Fechamento de Caixa</a>
-        <a href="Menu/Relatórios/relatorios.html">Relatórios</a>
-      </div>
-    </nav>
+  <main>
+    <h1>Histórico de Pedidos</h1>
+    <ul id="historicoPedidos"></ul>
+    <button id="btnLimpar" onclick="limparHistorico()">Limpar Histórico</button>
+  </main>
 
-    <main>
-      <h1>Histórico de Pedidos</h1>
-      <ul id="historicoPedidos"></ul>
-      <button id="btnLimpar" onclick="limparHistorico()">
-        Limpar Histórico
-      </button>
-    </main>
-
-    <script src="histórico.js"></script>
-  </body>
+  <!-- Script fora da pasta /Projetos/, ignorando base -->
+  <script src="../scripts/historico.js"></script>
+</body>
 </html>

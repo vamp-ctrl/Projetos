@@ -15,7 +15,7 @@ function carregarHistorico() {
 
   btnLimpar.disabled = false;
 
-  // Ordena pela data do mais recente para o mais antigo
+  // Ordena pela data do mais recente
   chaves.sort(
     (a, b) =>
       new Date(b.replace("historicoFechamento-", "")) -
@@ -24,7 +24,7 @@ function carregarHistorico() {
 
   chaves.forEach((chave) => {
     const data = chave.replace("historicoFechamento-", "");
-    const pedidos = Object.values(JSON.parse(localStorage.getItem(chave)));
+    const pedidos = Object.values(JSON.parse(localStorage.getItem(chave)) || {});
 
     // Título com data
     const titulo = document.createElement("li");
@@ -41,34 +41,30 @@ function carregarHistorico() {
         !pedido ||
         !pedido.id ||
         !pedido.vendedor ||
-        !pedido.total ||
+        pedido.total == null ||
         !pedido.dataHora
-      )
-        return;
+      ) return;
 
       const item = document.createElement("li");
+      const pagamentos = pedido.pagamentos?.map((p) => {
+        if (p.forma === "Dinheiro" && p.desejaTroco === "sim") {
+          const troco = (p.valorEntregue - p.valor).toFixed(2);
+          return `- ${p.forma}: R$ ${p.valor.toFixed(2)} (Entregue: R$ ${p.valorEntregue.toFixed(2)}, Troco: R$ ${troco})`;
+        } else if (p.forma === "Cartão") {
+          return `- ${p.forma} (${p.tipoCartao}): R$ ${p.valor.toFixed(2)}`;
+        } else {
+          return `- ${p.forma}: R$ ${p.valor.toFixed(2)}`;
+        }
+      }).join("\n") || "-";
+
       item.textContent =
         `Pedido #${pedido.id}\n` +
         `Vendedor: ${pedido.vendedor}\n` +
         `Total: R$ ${pedido.total}\n` +
-        `Pagamento(s):\n${pedido.pagamentos
-          .map((p) => {
-            if (p.forma === "Dinheiro" && p.desejaTroco === "sim") {
-              const troco = (p.valorEntregue - p.valor).toFixed(2);
-              return `- ${p.forma}: R$ ${p.valor.toFixed(
-                2
-              )} (Entregue: R$ ${p.valorEntregue.toFixed(
-                2
-              )}, Troco: R$ ${troco})`;
-            } else if (p.forma === "Cartão") {
-              return `- ${p.forma} (${p.tipoCartao}): R$ ${p.valor.toFixed(2)}`;
-            } else {
-              return `- ${p.forma}: R$ ${p.valor.toFixed(2)}`;
-            }
-          })
-          .join("\n")}\n` +
-        `Descrição: ${pedido.descricao}\n` +
+        `Pagamento(s):\n${pagamentos}\n` +
+        `Descrição: ${pedido.descricao || "-"}\n` +
         `Data/Hora: ${pedido.dataHora}`;
+
       historico.appendChild(item);
     });
   });

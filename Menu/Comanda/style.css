@@ -7,20 +7,33 @@
   --cinza: #ddd;
 }
 
-/* ===== Layout principal ===== */
+/* ===== Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
-  margin: 0;
   display: flex;
+  min-height: 100vh;
   background: #12001c;
   color: var(--roxo-claro);
 }
 
+/* ===== Sidebar ===== */
 .sidebar {
   width: 220px;
   background: var(--roxo-escuro);
   min-height: 100vh;
   padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .sidebar h1 {
@@ -36,17 +49,18 @@ body {
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 10px;
-  transition: 0.3s;
   background: var(--roxo-medio);
+  transition: 0.3s;
 }
 
 .sidebar a:hover {
   background: #6a0dad;
 }
 
-/* ===== Conteúdo ===== */
+/* ===== Main content ===== */
 .main-content {
   flex: 1;
+  margin-left: 240px;
   padding: 20px;
 }
 
@@ -55,6 +69,7 @@ header h1 {
   margin-bottom: 20px;
 }
 
+/* ===== Sections ===== */
 section {
   background: var(--roxo-medio);
   padding: 15px;
@@ -68,7 +83,7 @@ section h2 {
   color: var(--branco);
 }
 
-/* ===== Inputs e Botões ===== */
+/* ===== Inputs e Buttons ===== */
 input,
 select,
 button {
@@ -144,7 +159,7 @@ button:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .modal.hidden {
@@ -155,15 +170,14 @@ button:hover {
   background: var(--roxo-medio);
   padding: 20px;
   border-radius: 12px;
-  width: 350px;
+  width: 400px;
   max-width: 90%;
   text-align: left;
 }
 
 .modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .modal-content label {
@@ -175,8 +189,8 @@ button:hover {
 .modal-content .botoes {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
   gap: 10px;
+  margin-top: 15px;
 }
 
 .modal-content button {
@@ -189,4 +203,36 @@ footer {
   margin-top: 20px;
   font-size: 0.8rem;
   color: var(--cinza);
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .sidebar h1 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .sidebar a {
+    margin: 5px;
+    font-size: 0.9rem;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
 }

@@ -29,11 +29,7 @@
         <!-- Abrir nova comanda -->
         <section class="form-section">
           <h2>Abrir Nova Comanda</h2>
-          <input
-            type="text"
-            id="nomeComanda"
-            placeholder="Nome ou número da comanda"
-          />
+          <input type="text" id="nomeComanda" placeholder="Nome ou número da comanda" />
           <button id="btnAbrir">Abrir</button>
         </section>
 
@@ -44,7 +40,7 @@
         </section>
 
         <!-- Detalhes da comanda -->
-        <section id="detalhesComanda" class="resultado" style="display: none">
+        <section id="detalhesComanda" class="resultado" style="display: none;">
           <h2 id="tituloComanda"></h2>
 
           <div class="acoes">
@@ -55,7 +51,7 @@
           <ul id="itensComanda" class="comanda"></ul>
           <p><strong>Total:</strong> R$ <span id="totalComanda">0.00</span></p>
 
-          <button id="btnFechar">Fechar Comanda</button>
+          <button id="btnFecharComanda">Fechar Comanda</button>
           <button id="btnCancelar">Cancelar Comanda</button>
         </section>
 
@@ -75,22 +71,12 @@
             </select>
 
             <label for="valorPagamento">Valor:</label>
-            <input
-              type="number"
-              id="valorPagamento"
-              placeholder="Valor (R$)"
-              step="0.01"
-            />
+            <input type="number" id="valorPagamento" placeholder="Valor (R$)" step="0.01" />
 
             <!-- Campo troco aparece só se for dinheiro -->
-            <div id="campoTroco" style="display: none">
+            <div id="campoTroco" style="display: none;">
               <label for="valorRecebido">Valor Recebido:</label>
-              <input
-                type="number"
-                id="valorRecebido"
-                placeholder="R$ recebido"
-                step="0.01"
-              />
+              <input type="number" id="valorRecebido" placeholder="R$ recebido" step="0.01" />
               <p>Troco: R$ <span id="troco">0.00</span></p>
             </div>
 
@@ -112,6 +98,6 @@
       </footer>
     </div>
 
-    <script src="comanda.js"></script>
+    <script src="./comanda.js"></script>
   </body>
 </html>

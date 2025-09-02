@@ -4,14 +4,9 @@
   --roxo-input: #5e1b8a;
   --roxo-claro: #f3e6ff;
   --branco: #ffffff;
-  --cinza: #ddd;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   font-family: Arial, sans-serif;
@@ -22,67 +17,29 @@ body {
   min-height: 100vh;
 }
 
-/* ===== Sidebar desktop ===== */
+/* Sidebar */
 nav.sidebar {
   width: 240px;
   background-color: var(--roxo-escuro);
   padding: 20px;
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  top: 0; left: 0; bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
+nav.sidebar h1 { font-size: 1.5rem; margin-bottom: 20px; background-color: var(--roxo-medio); border-radius: 50px; text-align: center; padding: 10px; }
+nav.sidebar a { text-decoration: none; color: var(--roxo-claro); padding: 10px; border-radius: 6px; background-color: var(--roxo-medio); transition: 0.3s; }
+nav.sidebar a:hover { background-color: #6a0dad; }
 
-nav.sidebar h1 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  background-color: var(--roxo-medio);
-  border-radius: 50px;
-  color: var(--roxo-claro);
-  text-align: center;
-  padding: 10px;
-}
+/* Header */
+header { text-align: center; padding: 15px 0; color: var(--roxo-claro); margin-left: 240px; }
 
-nav.sidebar a {
-  text-decoration: none;
-  color: var(--roxo-claro);
-  font-size: 1rem;
-  padding: 10px;
-  border-radius: 6px;
-  background-color: var(--roxo-medio);
-  transition: background 0.3s;
-}
+/* Main */
+main { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; margin-left: 240px; }
 
-nav.sidebar a:hover {
-  background-color: #6a0dad;
-}
-
-/* ===== Header ===== */
-header {
-  text-align: center;
-  padding: 15px 0;
-  color: var(--roxo-claro);
-  display: flex;
-  justify-content: center;
-  margin-left: 240px;
-}
-
-/* ===== Main ===== */
-main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin-left: 240px;
-}
-
-/* ===== Resultado / Fechamento ===== */
-.resultado,
-#fechamento {
+/* Resultado / Fechamento */
+.resultado, #fechamento {
   background-color: var(--roxo-medio);
   padding: 30px 40px;
   border-radius: 12px;
@@ -90,108 +47,32 @@ main {
   width: 100%;
   max-width: 400px;
   text-align: center;
-  color: var(--roxo-claro);
   font-family: monospace;
-  font-size: 1rem;
-}
-
-.resultado { background-color: #2a003f; padding: 30px 40px; border-radius: 12px; box-shadow: 0 0 15px #3a0055; width: 100%; max-width: 400px; text-align: center; margin: 0 auto; }
-
-#fechamento {
-  display: none;
-  text-align: left;
-  font-size: 1.1rem;
-}
-
-/* ===== Cabeçalhos ===== */
-h2 {
-  margin-top: 0;
   color: var(--roxo-claro);
-  margin-bottom: 20px;
 }
+#fechamento { display: none; text-align: left; font-size: 1.1rem; }
 
-/* ===== Inputs e Buttons ===== */
+/* Inputs e buttons */
 input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 1rem;
-  background-color: var(--roxo-input);
-  color: var(--roxo-claro);
+  width: 100%; padding: 10px; margin: 5px 0 10px 0; border-radius: 6px;
+  border: none; font-size: 1rem; background-color: var(--roxo-input); color: var(--roxo-claro);
 }
-
 button {
-  width: 100%;
-  padding: 12px;
-  font-size: 1.2rem;
-  background-color: #6a0dad;
-  border: none;
-  border-radius: 8px;
-  color: var(--roxo-claro);
-  cursor: pointer;
+  width: 100%; padding: 12px; font-size: 1.2rem; background-color: #6a0dad;
+  border: none; border-radius: 8px; color: var(--roxo-claro); cursor: pointer; margin-bottom: 20px;
   transition: background-color 0.3s ease;
-  margin-bottom: 20px;
 }
+button:hover { background-color: #8e2bb7; }
 
-button:hover {
-  background-color: #8e2bb7;
-}
+/* Footer */
+footer { text-align: center; padding: 15px 0; color: var(--roxo-claro); margin-left: 240px; }
 
-/* ===== Footer ===== */
-footer {
-  text-align: center;
-  padding: 15px 0;
-  color: var(--roxo-claro);
-  margin-left: 240px;
-}
-
-/* ===== Responsivo ===== */
+/* Responsivo */
 @media (max-width: 768px) {
-  header {
-    margin-left: 0;
-    text-align: center;
-  }
-
-  nav.sidebar {
-    position: relative;
-    width: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 10px;
-  }
-
-  nav.sidebar h1 {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  nav.sidebar a {
-    margin: 5px;
-    font-size: 0.9rem;
-  }
-
-  main {
-    margin-left: 0;
-    padding: 20px 10px;
-  }
-
-  .resultado,
-  #fechamento {
-    max-width: 100%;
-    padding: 20px;
-  }
-
-  button {
-    font-size: 1rem;
-  }
-
-  footer {
-    margin-left: 0;
-    background-color: var(--roxo-medio);
-  }
+  header, main, footer { margin-left: 0; }
+  nav.sidebar { position: relative; width: 100%; flex-direction: row; flex-wrap: wrap; justify-content: center; padding: 10px; }
+  nav.sidebar h1 { width: 100%; text-align: center; margin-bottom: 10px; }
+  nav.sidebar a { margin: 5px; font-size: 0.9rem; }
+  .resultado, #fechamento { max-width: 100%; padding: 20px; }
+  button { font-size: 1rem; }
 }

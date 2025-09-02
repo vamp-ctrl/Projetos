@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== Sidebar para desktop ===== */
+/* Sidebar Desktop */
 .sidebar {
   background-color: var(--roxo-escuro);
   padding: 20px;
@@ -52,7 +52,7 @@ body {
   background-color: #6a0dad;
 }
 
-/* ===== Topnav para mobile ===== */
+/* Topnav Mobile */
 .topnav {
   display: none;
 }
@@ -62,26 +62,25 @@ main {
   padding: 20px;
 }
 
-/* ===== Cabeçalhos ===== */
 h2 {
   color: var(--roxo-claro);
   text-align: center;
   margin-bottom: 20px;
 }
 
-/* ===== Relatórios / caixas ===== */
+/* Relatórios */
 .relatorio {
   background-color: var(--roxo-medio);
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
-  box-shadow: 0 0 10px #3a0055;
+  box-shadow: 0 0 15px #3a0055;
   white-space: pre-wrap;
   font-family: monospace;
   color: var(--roxo-claro);
 }
 
-/* ===== Footer ===== */
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
@@ -89,7 +88,7 @@ footer {
   display: none;
 }
 
-/* ===== Responsivo ===== */
+/* Responsivo */
 @media (max-width: 768px) {
   body {
     flex-direction: column;
@@ -142,11 +141,8 @@ footer {
   }
 }
 
-/* ===== Inputs e Botões (estilo do primeiro CSS) ===== */
-input,
-select,
-button,
-textarea {
+/* Inputs e Botões */
+input, select, button, textarea {
   width: 100%;
   padding: 10px;
   border-radius: 6px;
@@ -155,9 +151,7 @@ textarea {
   font-size: 1rem;
 }
 
-input,
-select,
-textarea {
+input, select, textarea {
   background-color: var(--roxo-input);
   color: var(--roxo-claro);
 }
