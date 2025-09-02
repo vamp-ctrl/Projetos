@@ -1,8 +1,10 @@
 :root {
-  --roxo-escuro: #2a003f;
-  --preto: #000000;
-  --roxo-claro: #f0e6ff;
-  --roxo-input: #340b49;
+  --roxo-escuro: #2e003e;
+  --roxo-medio: #4b007d;
+  --roxo-input: #5e1b8a;
+  --roxo-claro: #f3e6ff;
+  --branco: #ffffff;
+  --cinza: #ddd;
 }
 
 * {
@@ -13,13 +15,12 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: var(--preto);
+  background-color: #12001c;
   color: var(--roxo-claro);
   display: flex;
   min-height: 100vh;
 }
 
-/* MENU LATERAL */
 .sidebar {
   width: 240px;
   background-color: var(--roxo-escuro);
@@ -31,14 +32,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  transition: transform 0.3s ease;
 }
 
 .sidebar h1 {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: var(--roxo-claro);
-  text-decoration: underline;
+  color: var(--branco);
 }
 
 .sidebar a {
@@ -46,13 +45,13 @@ body {
   color: var(--roxo-claro);
   font-size: 1rem;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--roxo-input);
-  transition: background 0.3s;
+  border-radius: 6px;
+  background: var(--roxo-medio);
+  transition: 0.3s;
 }
 
 .sidebar a:hover {
-  background-color: #3a0055;
+  background-color: #6a0dad;
 }
 
 .main-content {
@@ -64,40 +63,21 @@ body {
 header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 10px;
   padding: 10px 20px;
   border-radius: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  background-color: var(--roxo-escuro);
+  background-color: var(--roxo-medio);
+  margin-bottom: 20px;
 }
 
 header h1 {
   font-size: 1.8rem;
   color: var(--roxo-claro);
-  margin: 0;
 }
 
-.menu-toggle {
-  background: none;
-  color: var(--roxo-claro);
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  display: none;
-  padding: 0;
-  margin: 0;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* ===== Forms ===== */
 .form-section {
-  background-color: var(--roxo-escuro);
+  background-color: var(--roxo-medio);
   padding: 20px;
   border-radius: 10px;
 }
@@ -113,7 +93,7 @@ main {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  border-radius: 5px;
+  border-radius: 6px;
   border: none;
   font-size: 1rem;
   background-color: var(--roxo-input);
@@ -125,45 +105,57 @@ button {
   margin-top: 15px;
   padding: 10px;
   width: 100%;
-  background-color: var(--roxo-claro);
-  color: var(--roxo-escuro);
+  background-color: #6a0dad;
+  color: var(--roxo-claro);
   font-weight: bold;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.form-section button:hover {
-  background-color: #e0d0ff;
+.form-section button:hover,
+button:hover {
+  background-color: #8e2bb7;
 }
 
+button:disabled {
+  background-color: #7b3fa188;
+  cursor: not-allowed;
+}
+
+/* ===== Resultado e Comanda ===== */
 .resultado {
-  background-color: var(--roxo-escuro);
+  background-color: var(--roxo-medio);
   padding: 20px;
   border-radius: 10px;
 }
 
 .comanda {
-  background-color: #1a002a;
+  background-color: #3a0055;
   margin-top: 10px;
-  margin-right: 80px;
   padding: 15px;
   border-radius: 10px;
   font-family: monospace;
+  color: var(--roxo-claro);
   white-space: pre-wrap;
 }
 
+/* ===== Footer ===== */
 footer {
   margin-top: 20px;
   text-align: center;
+  color: var(--cinza);
 }
 
-textarea::placeholder {
+/* ===== Placeholder ===== */
+textarea::placeholder,
+input::placeholder {
   color: var(--roxo-claro);
   opacity: 0.7;
 }
 
-/* RESPONSIVO SEM MENU HAMBÚRGUER */
+/* ===== Responsivo ===== */
 @media (max-width: 768px) {
   body {
     flex-direction: column;
@@ -171,12 +163,12 @@ textarea::placeholder {
 
   .sidebar {
     width: 100%;
-    height: auto;
     position: relative;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+    padding: 10px;
   }
 
   .sidebar h1 {
@@ -187,16 +179,11 @@ textarea::placeholder {
 
   .main-content {
     margin-left: 0;
-    margin-top: 0;
     width: 100%;
   }
 
   header {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .menu-toggle {
-    display: none;
   }
 }

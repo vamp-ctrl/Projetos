@@ -1,148 +1,158 @@
 :root {
-        --roxo-escuro: #1a1a2e;
-        --roxo-medio: #2a003f;
-        --roxo-claro: #d1c4e9;
-        --roxo-hover: #5e35b1;
-      }
+  --roxo-escuro: #2e003e;
+  --roxo-medio: #4b007d;
+  --roxo-input: #5e1b8a;
+  --roxo-claro: #f3e6ff;
+  --branco: #ffffff;
+  --cinza: #ddd;
+}
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-      body {
-        font-family: Arial, sans-serif;
-        background-color: var(--roxo-escuro);
-        color: var(--roxo-claro);
-        display: flex;
-        min-height: 100vh;
-      }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #12001c;
+  color: var(--roxo-claro);
+  display: flex;
+  min-height: 100vh;
+}
 
-      .sidebar {
-        background-color: var(--roxo-medio);
-        padding: 20px;
-        width: 220px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
+/* ===== Sidebar desktop ===== */
+.sidebar {
+  background-color: var(--roxo-escuro);
+  padding: 20px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
-      .sidebar a {
-        text-decoration: none;
-        color: var(--roxo-claro);
-        padding: 10px 15px;
-        border-radius: 5px;
-        transition: background 0.3s;
-        border: 1px solid #340b49;
-      }
+.sidebar a {
+  text-decoration: none;
+  color: var(--roxo-claro);
+  padding: 10px;
+  border-radius: 6px;
+  background-color: var(--roxo-medio);
+  transition: 0.3s;
+}
 
-      .sidebar a:hover {
-        background-color: #62237f;
-      }
+.sidebar a:hover {
+  background-color: #6a0dad;
+}
 
-      .topnav {
-        display: none;
-      }
+/* ===== Topnav mobile ===== */
+.topnav {
+  display: none;
+}
 
-      main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-      }
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
-      h1 {
-        color: #b39ddb;
-        margin-bottom: 20px;
-        text-align: center;
-        font-size: 1.8rem;
-        text-decoration: underline;
-      }
+/* ===== Cabeçalho ===== */
+h1 {
+  color: var(--roxo-claro);
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.8rem;
+  text-decoration: underline;
+}
 
-      #historicoPedidos {
-        list-style: none;
-        padding: 0;
-        width: 100%;
-        max-width: 600px;
-      }
+/* ===== Lista de histórico ===== */
+#historicoPedidos {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 600px;
+}
 
-      #historicoPedidos li {
-        background-color: var(--roxo-medio);
-        margin-bottom: 12px;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 8px #340b49;
-        font-size: 1rem;
-        white-space: pre-line;
-      }
+#historicoPedidos li {
+  background-color: var(--roxo-input);
+  margin-bottom: 12px;
+  padding: 15px 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 8px #340b49;
+  font-size: 1rem;
+  white-space: pre-line;
+  color: var(--roxo-claro);
+}
 
-      #btnLimpar {
-        margin-top: 20px;
-        background-color: #7e57c2;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        font-size: 1rem;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+/* ===== Botão limpar ===== */
+#btnLimpar {
+  margin-top: 20px;
+  background-color: #6a0dad;
+  color: var(--roxo-claro);
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-      #btnLimpar:disabled {
-        background-color: #9575cd88;
-        cursor: not-allowed;
-      }
+#btnLimpar:hover:not(:disabled) {
+  background-color: #8e2bb7;
+}
 
-      #btnLimpar:hover:not(:disabled) {
-        background-color: var(--roxo-hover);
-      }
+#btnLimpar:disabled {
+  background-color: #7b3fa188;
+  cursor: not-allowed;
+}
 
-      /* RESPONSIVO */
-      @media (max-width: 768px) {
-        body {
-          flex-direction: column;
-          align-items: center;
-        }
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    align-items: center;
+  }
 
-        .sidebar {
-          display: none;
-        }
+  .sidebar {
+    display: none;
+  }
 
-        .topnav {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          background-color: var(--roxo-medio);
-          padding: 15px 10px;
-          width: 100%;
-          gap: 10px;
-        }
+  .topnav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--roxo-medio);
+    padding: 15px 10px;
+    width: 100%;
+    gap: 10px;
+  }
 
-        .topnav h5 {
-          font-size: 1.2rem;
-          margin-bottom: 5px;
-        }
+  .topnav h5 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: var(--roxo-claro);
+  }
 
-        .topnav .nav-links {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-          justify-content: center;
-        }
+  .topnav .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-        .topnav .nav-links a {
-          text-decoration: none;
-          color: var(--roxo-claro);
-          font-size: 0.95rem;
-          padding: 10px 12px;
-          border: 1px solid #340b49;
-          border-radius: 5px;
-          transition: background 0.3s;
-        }
+  .topnav .nav-links a {
+    text-decoration: none;
+    color: var(--roxo-claro);
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: var(--roxo-input);
+    border: 1px solid #340b49;
+    transition: background 0.3s;
+  }
 
-        .topnav .nav-links a:hover {
-          background-color: #3a0055;
-        }
-      }
+  .topnav .nav-links a:hover {
+    background-color: #62237f;
+  }
+}

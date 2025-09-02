@@ -1,12 +1,18 @@
 // ==================== Estado inicial ====================
-let pedidoId = +localStorage.getItem("pedidoId") || 1;
+let nextPedidoId = Number(localStorage.getItem("nextPedidoId") || 1);
 let comandas = JSON.parse(localStorage.getItem("comandas") || "{}");
 
 let caixaAberto = localStorage.getItem("caixaAberto") === "true";
 let valorAbertura = +localStorage.getItem("valorAbertura") || 0;
 let totalPedidos = +localStorage.getItem("totalPedidos") || 0;
 
-// ==================== Utilitários ====================
+function gerarId() {
+  const id = nextPedidoId;
+  nextPedidoId++;
+  localStorage.setItem("nextPedidoId", nextPedidoId);
+  return id;
+}
+
 function salvarDados() {
   localStorage.setItem("pedidoId", pedidoId.toString());
   localStorage.setItem("comandas", JSON.stringify(comandas));
@@ -16,10 +22,14 @@ function salvarDados() {
 }
 
 function calcularTotais() {
-  let valorAcai = [...document.querySelectorAll(".valorAcai")]
-    .reduce((s, i) => s + (+i.value || 0), 0);
-  let valorProduto = [...document.querySelectorAll(".valorProduto")]
-    .reduce((s, i) => s + (+i.value || 0), 0);
+  let valorAcai = [...document.querySelectorAll(".valorAcai")].reduce(
+    (s, i) => s + (+i.value || 0),
+    0
+  );
+  let valorProduto = [...document.querySelectorAll(".valorProduto")].reduce(
+    (s, i) => s + (+i.value || 0),
+    0
+  );
   return { valorAcai, valorProduto, total: valorAcai + valorProduto };
 }
 
@@ -28,21 +38,22 @@ function exibirMensagem(mensagem, cor = "black") {
   resumo.innerHTML = `<span style="color:${cor};">${mensagem}</span>`;
 }
 
-// ==================== Inicialização ====================
 window.onload = function () {
   const params = new URLSearchParams(window.location.search);
   const comandaId = params.get("comandaId");
   if (comandaId) {
-    const comandasAbertas = JSON.parse(localStorage.getItem("comandasAbertas") || "[]");
-    const comanda = comandasAbertas.find(c => c.id == comandaId);
+    const comandasAbertas = JSON.parse(
+      localStorage.getItem("comandasAbertas") || "[]"
+    );
+    const comanda = comandasAbertas.find((c) => c.id == comandaId);
     if (comanda) {
       document.getElementById("vendedorInput").value = "";
 
       const totalAcai = comanda.itens
-        .filter(i => i.tipo.toLowerCase() === "açaí")
+        .filter((i) => i.tipo.toLowerCase() === "açaí")
         .reduce((s, v) => s + v.valor, 0);
       const totalProduto = comanda.itens
-        .filter(i => i.tipo.toLowerCase() === "produto")
+        .filter((i) => i.tipo.toLowerCase() === "produto")
         .reduce((s, v) => s + v.valor, 0);
 
       if (totalAcai > 0) {
@@ -50,7 +61,8 @@ window.onload = function () {
         document.getElementById("acaiContainer").style.display = "block";
       }
       if (totalProduto > 0) {
-        document.getElementById("tipoPedido").value = totalAcai > 0 ? "ambos" : "produto";
+        document.getElementById("tipoPedido").value =
+          totalAcai > 0 ? "ambos" : "produto";
         document.getElementById("produtoContainer").style.display = "block";
       }
 
@@ -78,7 +90,9 @@ function adicionarItem(tipo, valor = "") {
     <button type="button" class="removerItem">Remover</button>
   `;
 
-  div.querySelector(".removerItem").addEventListener("click", () => div.remove());
+  div
+    .querySelector(".removerItem")
+    .addEventListener("click", () => div.remove());
   container.appendChild(div);
 }
 
@@ -133,15 +147,18 @@ function adicionarPagamento() {
   const valorEntregueInput = div.querySelector(".valorEntregue");
 
   formaPagamentoSelect.addEventListener("change", function () {
-    tipoCartaoSelect.style.display = this.value === "Cartão" ? "inline-block" : "none";
+    tipoCartaoSelect.style.display =
+      this.value === "Cartão" ? "inline-block" : "none";
     trocoContainer.style.display = this.value === "Dinheiro" ? "block" : "none";
-    if (this.value !== "Dinheiro") valorEntregueContainer.style.display = "none";
+    if (this.value !== "Dinheiro")
+      valorEntregueContainer.style.display = "none";
     desejaTrocoSelect.value = "";
     valorEntregueInput.value = "";
   });
 
   desejaTrocoSelect.addEventListener("change", function () {
-    valorEntregueContainer.style.display = this.value === "sim" ? "block" : "none";
+    valorEntregueContainer.style.display =
+      this.value === "sim" ? "block" : "none";
     if (this.value !== "sim") valorEntregueInput.value = "";
   });
 
@@ -181,30 +198,45 @@ window.calcularTotal = function () {
     return;
   }
 
-  let valorPagoTotal = 0, pagamentoResumo = "", trocoTotal = 0;
+  let valorPagoTotal = 0,
+    pagamentoResumo = "",
+    trocoTotal = 0;
 
   for (const item of pagamentoItens) {
     const forma = item.querySelector(".formaPagamento").value;
-    const valor = +(item.querySelector(".valorPagamento").value) || 0;
+    const valor = +item.querySelector(".valorPagamento").value || 0;
     const tipoCartao = item.querySelector(".tipoCartao").value;
     const desejaTroco = item.querySelector(".desejaTroco")?.value || "nao";
-    const valorEntregue = +(item.querySelector(".valorEntregue")?.value) || 0;
+    const valorEntregue = +item.querySelector(".valorEntregue")?.value || 0;
 
     if (!forma || valor <= 0) {
-      exibirMensagem("Preencha corretamente todas as formas de pagamento.", "red");
+      exibirMensagem(
+        "Preencha corretamente todas as formas de pagamento.",
+        "red"
+      );
       return;
     }
     if (forma === "Cartão" && !tipoCartao) {
-      exibirMensagem("Selecione o tipo de cartão em todos os pagamentos de cartão.", "red");
+      exibirMensagem(
+        "Selecione o tipo de cartão em todos os pagamentos de cartão.",
+        "red"
+      );
       return;
     }
     if (forma === "Dinheiro" && desejaTroco === "sim") {
       if (valorEntregue < valor) {
-        exibirMensagem("Valor entregue insuficiente para o pagamento em dinheiro.", "red");
+        exibirMensagem(
+          "Valor entregue insuficiente para o pagamento em dinheiro.",
+          "red"
+        );
         return;
       }
       trocoTotal += valorEntregue - valor;
-      pagamentoResumo += `${forma}: R$ ${valor.toFixed(2)} (Entregue: R$ ${valorEntregue.toFixed(2)}, Troco: R$ ${(valorEntregue - valor).toFixed(2)})<br>`;
+      pagamentoResumo += `${forma}: R$ ${valor.toFixed(
+        2
+      )} (Entregue: R$ ${valorEntregue.toFixed(2)}, Troco: R$ ${(
+        valorEntregue - valor
+      ).toFixed(2)})<br>`;
     } else if (forma === "Cartão") {
       pagamentoResumo += `${forma} (${tipoCartao}): R$ ${valor.toFixed(2)}<br>`;
     } else {
@@ -214,18 +246,28 @@ window.calcularTotal = function () {
   }
 
   if (valorPagoTotal < total) {
-    exibirMensagem(`Valor pago insuficiente. Total: R$ ${total.toFixed(2)} / Pago: R$ ${valorPagoTotal.toFixed(2)}`, "red");
+    exibirMensagem(
+      `Valor pago insuficiente. Total: R$ ${total.toFixed(
+        2
+      )} / Pago: R$ ${valorPagoTotal.toFixed(2)}`,
+      "red"
+    );
     return;
   }
 
   // Montar resumo
   let resumo = `<strong>Vendedor:</strong> ${vendedor}<br>`;
-  if (tipo === "acai" || tipo === "ambos") resumo += `<strong>Açaí:</strong> R$ ${valorAcai.toFixed(2)}<br>`;
-  if (tipo === "produto" || tipo === "ambos") resumo += `<strong>Produto:</strong> R$ ${valorProduto.toFixed(2)}<br>`;
+  if (tipo === "acai" || tipo === "ambos")
+    resumo += `<strong>Açaí:</strong> R$ ${valorAcai.toFixed(2)}<br>`;
+  if (tipo === "produto" || tipo === "ambos")
+    resumo += `<strong>Produto:</strong> R$ ${valorProduto.toFixed(2)}<br>`;
   resumo += `<strong>Pagamento(s):</strong><br>${pagamentoResumo}`;
-  if (trocoTotal > 0) resumo += `<strong>Troco Total:</strong> R$ ${trocoTotal.toFixed(2)}<br>`;
+  if (trocoTotal > 0)
+    resumo += `<strong>Troco Total:</strong> R$ ${trocoTotal.toFixed(2)}<br>`;
   if (descricao) resumo += `<strong>Descrição:</strong> ${descricao}<br>`;
-  resumo += `<strong>Total:</strong> <span style="font-size:1.2rem">R$ ${total.toFixed(2)}</span>`;
+  resumo += `<strong>Total:</strong> <span style="font-size:1.2rem">R$ ${total.toFixed(
+    2
+  )}</span>`;
 
   document.getElementById("resumo").innerHTML = resumo;
   document.getElementById("comanda").innerHTML = resumo;
@@ -233,28 +275,31 @@ window.calcularTotal = function () {
   document.getElementById("imprimirComanda").style.display = "inline-block";
 
   // Salvar pedido
-  const comandaFechada = JSON.parse(localStorage.getItem("comandaFechada") || "null");
-  comandas[`pedido${pedidoId}`] = {
-    id: pedidoId,
-    vendedor, tipo,
+  const comandaFechada = JSON.parse(
+    localStorage.getItem("comandaFechada") || "null"
+  );
+  comandas[`pedido${nextPedidoId}`] = {
+    id: nextPedidoId++,
+    vendedor,
+    tipo,
     acai: valorAcai.toFixed(2),
     produto: valorProduto.toFixed(2),
     pagamentos: Array.from(pagamentoItens).map((item) => ({
       forma: item.querySelector(".formaPagamento").value,
-      valor: +(item.querySelector(".valorPagamento").value) || 0,
+      valor: +item.querySelector(".valorPagamento").value || 0,
       tipoCartao: item.querySelector(".tipoCartao").value || null,
       desejaTroco: item.querySelector(".desejaTroco")?.value || "nao",
-      valorEntregue: +(item.querySelector(".valorEntregue")?.value) || 0,
+      valorEntregue: +item.querySelector(".valorEntregue")?.value || 0,
     })),
     total: total.toFixed(2),
     descricao,
     dataHora: new Date().toLocaleString(),
-    comandaId: comandaFechada ? comandaFechada.id : null
+    comandaId: comandaFechada ? comandaFechada.id : null,
   };
 
   if (comandaFechada) {
     let abertas = JSON.parse(localStorage.getItem("comandasAbertas") || "[]");
-    abertas = abertas.filter(c => c.id !== comandaFechada.id);
+    abertas = abertas.filter((c) => c.id !== comandaFechada.id);
     localStorage.setItem("comandasAbertas", JSON.stringify(abertas));
     localStorage.removeItem("comandaFechada");
   }
@@ -269,14 +314,23 @@ window.calcularTotal = function () {
 window.imprimirComanda = function () {
   const texto = document.getElementById("comanda").innerHTML;
   const win = window.open("", "", "width=400,height=600");
-  win.document.write(`<div style="font-family:monospace; font-size:16px;">${texto}</div><script>window.print();<\/script>`);
+  win.document.write(
+    `<div style="font-family:monospace; font-size:16px;">${texto}</div><script>window.print();<\/script>`
+  );
   win.document.close();
 };
 
 function resetarTudo() {
   if (confirm("Tem certeza que deseja apagar todos os dados do sistema?")) {
-    ["pedidoId", "comandas", "totalPedidos", "valorAbertura", "caixaAberto", "comandasAbertas", "comandaFechada"]
-      .forEach(key => localStorage.removeItem(key));
+    [
+      "pedidoId",
+      "comandas",
+      "totalPedidos",
+      "valorAbertura",
+      "caixaAberto",
+      "comandasAbertas",
+      "comandaFechada",
+    ].forEach((key) => localStorage.removeItem(key));
     location.reload();
   }
 }
@@ -303,5 +357,9 @@ document.getElementById("tipoPedido")?.addEventListener("change", function () {
     tipo === "produto" || tipo === "ambos" ? "block" : "none";
 });
 
-document.getElementById("btnAdicionarPagamento")?.addEventListener("click", adicionarPagamento);
-document.querySelector("button[onclick='resetarTudo()']")?.addEventListener("click", resetarTudo);
+document
+  .getElementById("btnAdicionarPagamento")
+  ?.addEventListener("click", adicionarPagamento);
+document
+  .querySelector("button[onclick='resetarTudo()']")
+  ?.addEventListener("click", resetarTudo);

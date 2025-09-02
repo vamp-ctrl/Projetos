@@ -1,99 +1,94 @@
+// ====== Estado inicial ======
 let comandas = JSON.parse(localStorage.getItem("comandasAbertas") || "[]");
 let comandaSelecionada = null;
+let pagamentos = [];
+let nextPedidoId = Number(localStorage.getItem("nextPedidoId") || 1);
+
+// ====== UTIL ======
+const $ = (id) => document.getElementById(id);
+
+function gerarId() {
+  const id = nextPedidoId++;
+  localStorage.setItem("nextPedidoId", nextPedidoId);
+  return id;
+}
 
 function salvar() {
   localStorage.setItem("comandasAbertas", JSON.stringify(comandas));
 }
 
-// ===== Abrir nova comanda =====
+// ====== Abrir nova comanda ======
 function abrirComanda() {
-  // Pega o valor do caixa e transforma em booleano
-  const caixaAberto = localStorage.getItem("caixaAberto") === "true";
-
-  if (!caixaAberto) {
-    alert("Abra o caixa antes de abrir uma comanda!");
-    return;
+  if (localStorage.getItem("caixaAberto") !== "true") {
+    return alert("Abra o caixa antes de abrir uma comanda!");
   }
 
-  const nome = document.getElementById("nomeComanda").value.trim();
+  const nome = $("nomeComanda").value.trim();
   if (!nome) {
-    alert("Digite um nome ou número para a comanda!");
-    return;
+    return alert("Digite um nome ou número para a comanda!");
   }
 
-  const nova = {
-    id: Date.now(),
-    nome: nome,
-    itens: [],
-    total: 0
-  };
-
+  const nova = { id: gerarId(), nome, itens: [], total: 0 };
   comandas.push(nova);
   salvar();
   listarComandas();
-  document.getElementById("nomeComanda").value = "";
+  $("nomeComanda").value = "";
 }
 
-
-
-
-// ===== Mostrar lista de comandas abertas =====
+// ====== Listar comandas ======
 function listarComandas() {
-  const lista = document.getElementById("comandasAbertas");
+  const lista = $("comandasAbertas");
   lista.innerHTML = "";
 
-  comandas.forEach(c => {
+  comandas.forEach(({ id, nome, total }) => {
     const li = document.createElement("li");
-    li.textContent = `${c.nome} - R$ ${c.total.toFixed(2)}`;
-    li.onclick = () => selecionarComanda(c.id);
+    li.textContent = `${nome} - R$ ${total.toFixed(2)}`;
+    li.onclick = () => selecionarComanda(id);
     lista.appendChild(li);
   });
 }
 
-// ===== Selecionar comanda =====
+// ====== Selecionar comanda ======
 function selecionarComanda(id) {
-  comandaSelecionada = comandas.find(c => c.id === id);
+  comandaSelecionada = comandas.find((c) => c.id === id);
   if (!comandaSelecionada) return;
 
-  document.getElementById("detalhesComanda").style.display = "block";
-  document.getElementById("tituloComanda").textContent =
-    `Comanda: ${comandaSelecionada.nome}`;
-
+  $("detalhesComanda").style.display = "block";
+  $("tituloComanda").textContent = `Comanda: ${comandaSelecionada.nome}`;
   renderizarItens();
 }
 
-// ===== Adicionar item =====
+// ====== Adicionar item ======
 function adicionarItem(tipo) {
-  const valor = prompt(`Digite o valor do ${tipo} (R$):`);
-  const v = parseFloat(valor);
-  if (isNaN(v) || v <= 0) {
-    alert("Valor inválido!");
-    return;
+  const valor = parseFloat(prompt(`Digite o valor do ${tipo} (R$):`));
+  if (isNaN(valor) || valor <= 0) {
+    return alert("Valor inválido!");
   }
 
-  comandaSelecionada.itens.push({ tipo, valor: v });
-  comandaSelecionada.total += v;
+  comandaSelecionada.itens.push({ tipo, valor });
+  comandaSelecionada.total += valor;
   salvar();
   renderizarItens();
 }
 
-// ===== Renderizar itens =====
+// ====== Renderizar itens ======
 function renderizarItens() {
-  const lista = document.getElementById("itensComanda");
+  const lista = $("itensComanda");
   lista.innerHTML = "";
 
   comandaSelecionada.itens.forEach((item, i) => {
     const li = document.createElement("li");
-    li.innerHTML = `${item.tipo} - R$ ${item.valor.toFixed(2)}
-      <button onclick="removerItem(${i})">Remover</button>`;
+    li.innerHTML = `
+      ${item.tipo} - R$ ${item.valor.toFixed(2)}
+      <button onclick="removerItem(${i})">Remover</button>
+    `;
     lista.appendChild(li);
   });
 
-  document.getElementById("totalComanda").textContent =
-    comandaSelecionada.total.toFixed(2);
+  $("totalComanda").textContent = comandaSelecionada.total.toFixed(2);
 }
 
-// ===== Remover item =====
+// ====== Remover item ======
 function removerItem(i) {
   const item = comandaSelecionada.itens[i];
   comandaSelecionada.total -= item.valor;
@@ -102,41 +97,131 @@ function removerItem(i) {
   renderizarItens();
 }
 
+// ====== Pagamento ======
 function fecharComanda() {
   if (comandaSelecionada.itens.length === 0) {
-    alert("A comanda está vazia!");
-    return;
+    return alert("A comanda está vazia!");
   }
-  // Abre o modal de pagamento
-  document.getElementById("modalPagamento").classList.remove("hidden");
+  pagamentos = [];
+  $("valorTotal").textContent = comandaSelecionada.total.toFixed(2);
+  $("listaPagamentos").innerHTML = "";
+  $("modalPagamento").classList.remove("hidden");
 }
 
 function fecharModal() {
-  document.getElementById("modalPagamento").classList.add("hidden");
+  $("modalPagamento").classList.add("hidden");
 }
 
-function confirmarPagamento() {
-  const formaPagamento = document.getElementById("formaPagamento").value;
+// Mostrar/ocultar campo de troco
+$("formaPagamento").addEventListener("change", () => {
+  const forma = $("formaPagamento").value;
+  $("campoTroco").style.display = forma === "Dinheiro" ? "block" : "none";
 
-  if (!formaPagamento) {
-    alert("Escolha uma forma de pagamento!");
-    return;
+  // Se for dinheiro, sugere automaticamente o valor restante da comanda
+  const totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
+  const restante = comandaSelecionada.total - totalPago;
+  $("valorPagamento").value = forma === "Dinheiro" ? restante.toFixed(2) : "";
+  $("valorRecebido").value = "";
+  $("troco").textContent = "0.00";
+});
+
+// Calcular troco
+$("valorRecebido").addEventListener("input", () => {
+  const recebido = parseFloat($("valorRecebido").value);
+  const valor = parseFloat($("valorPagamento").value);
+  $("troco").textContent =
+    !isNaN(recebido) && !isNaN(valor) && recebido >= valor
+      ? (recebido - valor).toFixed(2)
+      : "0.00";
+});
+
+function adicionarPagamento() {
+  const forma = $("formaPagamento").value;
+  let valor = parseFloat($("valorPagamento").value);
+
+  if (!forma || isNaN(valor) || valor <= 0) {
+    return alert("Preencha corretamente a forma e o valor!");
   }
 
-  const totalComanda = comandaSelecionada.itens.reduce((acc, item) => acc + item.valor, 0);
+  const totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
+  const restante = comandaSelecionada.total - totalPago;
 
+  if (valor > restante) {
+    valor = restante; // evita pagar mais que o necessário
+  }
+
+  const pagamento = { forma, valor };
+
+  if (forma === "Dinheiro") {
+    const recebido = parseFloat($("valorRecebido").value);
+    if (isNaN(recebido) || recebido < valor) {
+      return alert("Valor recebido inválido!");
+    }
+    pagamento.recebido = recebido;
+    pagamento.troco = recebido - valor;
+  }
+
+  pagamentos.push(pagamento);
+
+  const li = document.createElement("li");
+  li.textContent =
+    forma === "Dinheiro"
+      ? `${forma} - R$ ${valor.toFixed(
+          2
+        )} (Recebido: R$ ${pagamento.recebido.toFixed(
+          2
+        )}, Troco: R$ ${pagamento.troco.toFixed(2)})`
+      : `${forma} - R$ ${valor.toFixed(2)}`;
+
+  $("listaPagamentos").appendChild(li);
+
+  // Limpa campos
+  $("valorPagamento").value = "";
+  $("valorRecebido").value = "";
+  $("troco").textContent = "0.00";
+  $("formaPagamento").value = "";
+  $("campoTroco").style.display = "none";
+}
+
+function finalizarPagamento() {
+  let totalPago = pagamentos.reduce((acc, p) => acc + p.valor, 0);
+
+  // Pega o que ainda está nos campos, se o usuário não clicou em "Adicionar Pagamento"
+  const valorCampo = parseFloat($("valorPagamento").value);
+  const formaCampo = $("formaPagamento").value;
+  const recebidoCampo = parseFloat($("valorRecebido").value);
+
+  if (formaCampo && !isNaN(valorCampo) && valorCampo > 0) {
+    if (formaCampo === "Dinheiro") {
+      if (isNaN(recebidoCampo) || recebidoCampo < valorCampo) {
+        return alert("Valor recebido inválido!");
+      }
+      totalPago += valorCampo;
+    } else {
+      totalPago += valorCampo;
+    }
+  }
+
+  // 🔑 Checa o total de pagamentos em relação ao valor da comanda
+  if (totalPago < comandaSelecionada.total) {
+    return alert("O pagamento ainda não cobre o valor total!");
+  }
+
+  // Monta o pedido para histórico
   const novoPedido = {
-    id: `${comandaSelecionada.nome}`, // corrigido
+    id: comandaSelecionada.id,
     vendedor: localStorage.getItem("usuarioLogado") || "Desconhecido",
-    total: totalComanda,
-    pagamentos: [{ forma: formaPagamento, valor: totalComanda }],
+    total: comandaSelecionada.total,
+    pagamentos,
     descricao: `Fechamento da comanda ${comandaSelecionada.nome}`,
-    dataHora: new Date().toLocaleString()
+    dataHora: new Date().toLocaleString(),
   };
 
-  const dataHoje = new Date().toLocaleDateString();
-  const chaveHistorico = "historicoFechamento-" + dataHoje;
-  const historicoDoDia = JSON.parse(localStorage.getItem(chaveHistorico) || "[]");
+  const chaveHistorico =
+    "historicoFechamento-" + new Date().toLocaleDateString();
+  const historicoDoDia = JSON.parse(
+    localStorage.getItem(chaveHistorico) || "[]"
+  );
 
   historicoDoDia.push(novoPedido);
   localStorage.setItem(chaveHistorico, JSON.stringify(historicoDoDia));
@@ -144,31 +229,35 @@ function confirmarPagamento() {
   alert("Comanda fechada e registrada no histórico!");
   fecharModal();
   removerComanda();
-
   window.location.href = "../Histórico/histórico.html";
 }
 
-
-
-function removerComanda() {
-  comandas = comandas.filter(c => c.id !== comandaSelecionada.id);
-  salvar();
-  listarComandas();
-  document.getElementById("detalhesComanda").style.display = "none";
-  comandaSelecionada = null;
-}
-
-
-// ===== Cancelar comanda =====
+// ====== Cancelar comanda ======
 function cancelarComanda() {
   if (confirm("Cancelar essa comanda?")) {
-    comandas = comandas.filter
-    (c => c.id !== comandaSelecionada.id);
-    salvar();
-    listarComandas();
-    document.getElementById("detalhesComanda").style.display = "none";
+    removerComanda();
   }
 }
 
-// Inicializa lista ao carregar
+// ====== Remover comanda ======
+function removerComanda() {
+  comandas = comandas.filter((c) => c.id !== comandaSelecionada.id);
+  salvar();
+  listarComandas();
+  $("detalhesComanda").style.display = "none";
+  comandaSelecionada = null;
+}
+
+// ====== Eventos ======
+$("btnAbrir").addEventListener("click", abrirComanda);
+$("btnAddAcai").addEventListener("click", () => adicionarItem("Açaí"));
+$("btnAddProduto").addEventListener("click", () => adicionarItem("Produto"));
+$("btnFechar").addEventListener("click", fecharComanda);
+$("btnCancelar").addEventListener("click", cancelarComanda);
+
+$("btnAddPagamento").addEventListener("click", adicionarPagamento);
+$("btnFinalizarPagamento").addEventListener("click", finalizarPagamento);
+$("btnCancelarPagamento").addEventListener("click", fecharModal);
+
+// ====== Inicializa lista ======
 listarComandas();

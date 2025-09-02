@@ -1,0 +1,192 @@
+:root {
+  --roxo-escuro: #2e003e;
+  --roxo-medio: #4b007d;
+  --roxo-input: #5e1b8a;
+  --roxo-claro: #f3e6ff;
+  --branco: #ffffff;
+  --cinza: #ddd;
+}
+
+/* ===== Layout principal ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  background: #12001c;
+  color: var(--roxo-claro);
+}
+
+.sidebar {
+  width: 220px;
+  background: var(--roxo-escuro);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.sidebar h1 {
+  font-size: 1.3rem;
+  color: var(--branco);
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  color: var(--roxo-claro);
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+  background: var(--roxo-medio);
+}
+
+.sidebar a:hover {
+  background: #6a0dad;
+}
+
+/* ===== Conteúdo ===== */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+section {
+  background: var(--roxo-medio);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+section h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--branco);
+}
+
+/* ===== Inputs e Botões ===== */
+input,
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+input,
+select {
+  background: var(--roxo-input);
+  color: var(--branco);
+}
+
+button {
+  background: #6a0dad;
+  color: var(--branco);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #8e2bb7;
+}
+
+/* ===== Lista de Comandas ===== */
+.comanda-lista li {
+  background: var(--roxo-input);
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.comanda-lista li:hover {
+  background: #7b3fa1;
+}
+
+/* ===== Itens da comanda ===== */
+.comanda li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #3a0055;
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.comanda li button {
+  background: crimson;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+}
+
+.comanda li button:hover {
+  background: darkred;
+}
+
+/* ===== Modal ===== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--roxo-medio);
+  padding: 20px;
+  border-radius: 12px;
+  width: 350px;
+  max-width: 90%;
+  text-align: left;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.modal-content .botoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.modal-content button {
+  flex: 1;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: var(--cinza);
+}
