@@ -50,6 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Eventos
+  input.disabled = false;
+  botao.disabled = false;
+  validarValor(); // Validar ao carregar
   input.addEventListener("input", validarValor);
   botao.addEventListener("click", abrirCaixa);
 });
