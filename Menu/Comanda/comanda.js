@@ -202,7 +202,7 @@ function finalizarPagamento() {
   alert("Comanda fechada e registrada no histórico!");
   fecharModal();
   removerComanda();
-  window.location.href = "/Projetos/Menu/Histórico/histórico.html";
+  window.location.href = "/Projetos/Menu/Histórico/historico.html";
 }
 
 // Cancelar comanda
