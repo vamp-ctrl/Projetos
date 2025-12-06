@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Pedidos</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="toast-container" id="toastContainer"></div>
+
+      <header class="header">
+        <h1>Sistema de Pedidos</h1>
+        <div class="header-buttons">
+          <button class="btn btn-secondary" onclick="exportarDados()">
+            Exportar Dados
+          </button>
+          <div class="file-input-wrapper">
+            <button class="btn btn-secondary">Importar Dados</button>
+            <input
+              type="file"
+              id="importInput"
+              accept=".json"
+              onchange="importarDados(event)"
+              style="display: none"
+            />
+          </div>
+          <button class="btn btn-secondary" onclick="limparHistorico()">
+            Limpar Histórico
+          </button>
+          <button class="btn btn-primary" onclick="calcularResumoDiario()">
+            Resumo do Dia
+          </button>
+        </div>
+      </header>
+
+      <main class="grid-container">
+        <section>
+          <div class="panel">
+            <h2 id="panelTitle">Novo Pedido</h2>
+
+            <div class="form-group">
+              <label for="descricaoInput">Descrição do Item</label>
+              <input
+                type="text"
+                id="descricaoInput"
+                class="form-control"
+                placeholder="Ex: Açai"
+                onkeypress="handleEnterKey(event, adicionarItem)"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="valorInput">Valor (R$)</label>
+              <input
+                type="text"
+                id="valorInput"
+                class="form-control"
+                placeholder="R$ 00,00"
+                onkeypress="handleEnterKey(event, adicionarItem)"
+              />
+            </div>
+
+            <div class="buttons-row">
+              <button class="btn btn-primary" onclick="adicionarItem()">
+                Adicionar Item
+              </button>
+              <button
+                class="btn btn-secondary"
+                id="cancelButton"
+                onclick="cancelarPedido()"
+                style="display: none"
+              >
+                Cancelar Pedido
+              </button>
+            </div>
+          </div>
+
+          <div class="panel" id="itemsPanel" style="display: none">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+              "
+            >
+              <h3 style="margin: 0" id="orderTitle">Itens do Pedido</h3>
+              <span class="pedido-id" id="orderDate"></span>
+            </div>
+
+            <div class="items-list" id="itemsList"></div>
+
+            <div class="total-container">
+              <div class="total-row">
+                <span>Total:</span>
+                <span id="orderTotal">R$ 0.00</span>
+              </div>
+            </div>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-top: 20px;
+              "
+            >
+              <button
+                class="btn btn-success"
+                onclick="abrirModalPagamento()"
+                id="payButton"
+              >
+                PAGAR AGORA
+              </button>
+              <button
+                class="btn btn-warning"
+                onclick="salvarParaPagarDepois()"
+                id="payLaterButton"
+              >
+                PAGAR DEPOIS
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="panel">
+            <div class="tabs">
+              <div class="tab active" onclick="mudarTab('todos')" id="tabTodos">
+                Todos os Pedidos
+                <span class="badge" id="badgeTodos">0</span>
+              </div>
+              <div
+                class="tab"
+                onclick="mudarTab('pendentes')"
+                id="tabPendentes"
+              >
+                Pendentes
+                <span class="badge" id="badgePendentes">0</span>
+              </div>
+              <div class="tab" onclick="mudarTab('pagos')" id="tabPagos">
+                Pagos
+                <span class="badge success" id="badgePagos">0</span>
+              </div>
+            </div>
+
+            <div class="tab-content active" id="contentTodos">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 20px;
+                "
+              >
+                <h2 style="margin: 0">Histórico de Pedidos</h2>
+                <span style="font-size: 14px; color: #666" id="pedidosCount"
+                  >0 pedidos</span
+                >
+              </div>
+
+              <div class="pedidos-container" id="pedidosContainer"></div>
+            </div>
+
+            <div class="tab-content" id="contentPendentes">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 20px;
+                "
+              >
+                <h2 style="margin: 0">Pedidos Pendentes</h2>
+                <span style="font-size: 14px; color: #666" id="pendentesCount"
+                  >0 pendentes</span
+                >
+              </div>
+
+              <div class="pedidos-container" id="pendentesContainer"></div>
+            </div>
+
+            <div class="tab-content" id="contentPagos">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 20px;
+                "
+              >
+                <h2 style="margin: 0">Pedidos Pagos</h2>
+                <span style="font-size: 14px; color: #666" id="pagosCount"
+                  >0 pagos</span
+                >
+              </div>
+
+              <div class="pedidos-container" id="pagosContainer"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <div class="modal-overlay" id="paymentModal" style="display: none">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Finalizar Pagamento</h2>
+            <button class="modal-close" onclick="fecharModalPagamento()">
+              ×
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div
+              style="
+                background-color: #e8f4fc;
+                padding: 20px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+              "
+            >
+              <div style="text-align: center">
+                <div style="font-size: 14px; color: #3498db">Total a Pagar</div>
+                <div
+                  style="font-size: 32px; font-weight: bold; color: #2c3e50"
+                  id="modalTotal"
+                >
+                  R$ 0.00
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px">
+              <div style="font-weight: 600; color: #555; margin-bottom: 10px">
+                Forma de Pagamento
+              </div>
+              <div class="payment-options" id="paymentOptions"></div>
+            </div>
+
+            <div
+              class="troco-container"
+              id="trocoContainer"
+              style="display: none"
+            >
+              <div style="margin-bottom: 10px; font-weight: 600">
+                Valor para Troco (opcional)
+              </div>
+              <input
+                type="text"
+                id="trocoInput"
+                class="form-control"
+                placeholder="Mínimo R$ 0.00"
+                oninput="calcularTroco()"
+              />
+              <div
+                id="trocoResult"
+                style="
+                  margin-top: 15px;
+                  padding: 10px;
+                  background-color: #d4edda;
+                  color: #155724;
+                  border-radius: 4px;
+                  font-weight: bold;
+                  display: none;
+                "
+              >
+                Troco: R$ 0.00
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                class="btn btn-secondary"
+                onclick="fecharModalPagamento()"
+              >
+                Cancelar
+              </button>
+              <button class="btn btn-warning" onclick="salvarParaPagarDepois()">
+                Pagar Depois
+              </button>
+              <button
+                class="btn btn-success"
+                onclick="finalizarPedido()"
+                id="confirmPaymentButton"
+                disabled
+              >
+                Confirmar Pagamento
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="summaryModal" style="display: none">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="summaryTitle">Resumo Diário</h2>
+            <button class="modal-close" onclick="fecharModalResumo()">×</button>
+          </div>
+
+          <div class="modal-body">
+            <div id="summaryContent"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-overlay" id="payPendingModal" style="display: none">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Pagar Pedido Pendente</h2>
+            <button
+              class="modal-close"
+              onclick="fecharModalPagamentoPendente()"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div
+              style="
+                background-color: #e8f4fc;
+                padding: 20px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+              "
+            >
+              <div style="text-align: center">
+                <div style="font-size: 14px; color: #3498db">
+                  Pedido #<span id="pendingOrderId"></span>
+                </div>
+                <div
+                  style="font-size: 14px; color: #666; margin-top: 5px"
+                  id="pendingOrderDate"
+                ></div>
+                <div
+                  style="
+                    font-size: 32px;
+                    font-weight: bold;
+                    color: #2c3e50;
+                    margin-top: 10px;
+                  "
+                  id="pendingOrderTotal"
+                >
+                  R$ 0.00
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 20px">
+              <div style="font-weight: 600; color: #555; margin-bottom: 10px">
+                Forma de Pagamento
+              </div>
+              <div class="payment-options" id="pendingPaymentOptions"></div>
+            </div>
+
+            <div
+              class="troco-container"
+              id="pendingTrocoContainer"
+              style="display: none"
+            >
+              <div style="margin-bottom: 10px; font-weight: 600">
+                Valor para Troco (opcional)
+              </div>
+              <input
+                type="text"
+                id="pendingTrocoInput"
+                class="form-control"
+                placeholder="Mínimo R$ 0.00"
+                oninput="calcularTrocoPendente()"
+              />
+              <div
+                id="pendingTrocoResult"
+                style="
+                  margin-top: 15px;
+                  padding: 10px;
+                  background-color: #d4edda;
+                  color: #155724;
+                  border-radius: 4px;
+                  font-weight: bold;
+                  display: none;
+                "
+              >
+                Troco: R$ 0.00
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                class="btn btn-secondary"
+                onclick="fecharModalPagamentoPendente()"
+              >
+                Cancelar
+              </button>
+              <button
+                class="btn btn-success"
+                onclick="finalizarPagamentoPendente()"
+                id="confirmPendingPaymentButton"
+                disabled
+              >
+                Confirmar Pagamento
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
